@@ -1,0 +1,21 @@
+services:
+
+  oracle:
+
+    # Imagem do Docker Hub (sinta-se livre para trocar a tag "21-full" para qualquer outra que preferir)
+    image: gvenzl/oracle-xe:21-full
+
+    # Caso queira personalizar o nome do container, facilita na hora de interagir com ele nos comandos do docker do terminal
+    container_name: oracle-db
+
+    # Senha de "administrador" do banco
+    environment:
+      ORACLE_PASSWORD: password
+
+    # Porta padrão do banco Oracle
+    ports:
+      - 1521:1521
+
+    # Esse volume é montado com um script SQL que cria e concede permissões de DBA para o usuário que iremos criar ("C##JAVA")
+    volumes:
+      - ./create_user_and_grant_privileges.sql:/docker-entrypoint-initdb.d/create_user_and_grant_privileges.sql
