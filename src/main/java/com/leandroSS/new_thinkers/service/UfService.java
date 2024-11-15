@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.service;
 
+import com.leandroSS.new_thinkers.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.dto.ResponseUfDto;
 import com.leandroSS.new_thinkers.entity.UF;
 import com.leandroSS.new_thinkers.repository.UfRepository;
@@ -16,9 +17,14 @@ public class UfService {
         this.ufRepository = ufRepository;
     }
 
-    public List<ResponseUfDto> createUf(UF uf){
+    public List<ResponseUfDto> createUf(CreateUfDto createUfDto){
 
-        this.ufRepository.save(uf);
+        var newUf = new UF();
+        newUf.setSigla(createUfDto.sigla());
+        newUf.setNome(createUfDto.nome());
+        newUf.setStatus(createUfDto.status());
+
+        this.ufRepository.save(newUf);
 
         var allUf = this.ufRepository.findAll();
 

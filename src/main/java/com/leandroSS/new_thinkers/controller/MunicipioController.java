@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.controller;
 
+import com.leandroSS.new_thinkers.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Municipio;
 import com.leandroSS.new_thinkers.service.MunicipioService;
@@ -18,11 +19,10 @@ public class MunicipioController {
     }
 
     //pq n pegar o codigo municipio do body?
-    @PostMapping("/{codigoUf}")
-    public ResponseEntity<List<ResponseMunicipioDto>> create(@PathVariable("codigoUf") String codigoUf,
-                                                             @RequestBody Municipio municipio) {
+    @PostMapping("/")
+    public ResponseEntity<List<ResponseMunicipioDto>> create(@RequestBody CreateMunicipioDto createMunicipioDto) {
 
-        var newMunicipio = municipioService.createMunicipio(codigoUf, municipio);
+        var newMunicipio = municipioService.createMunicipio(createMunicipioDto);
 
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newMunicipio);
 

@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.service;
 
+import com.leandroSS.new_thinkers.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Municipio;
 import com.leandroSS.new_thinkers.repository.MunicipioRepository;
@@ -22,14 +23,14 @@ public class MunicipioService {
     }
 
 
-    public List<ResponseMunicipioDto> createMunicipio(String codigoUf, Municipio municipio) {
+    public List<ResponseMunicipioDto> createMunicipio(CreateMunicipioDto createMunicipioDto) {
 
-        var uf = this.ufRepository.findById(Integer.valueOf(codigoUf))
+        var uf = this.ufRepository.findById(createMunicipioDto.codigoUf())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Estado não exixste"));
 
         var newMunicipio = new Municipio();
-        newMunicipio.setStatus(municipio.getStatus());
-        newMunicipio.setNome(municipio.getNome());
+        newMunicipio.setStatus(createMunicipioDto.status());
+        newMunicipio.setNome(createMunicipioDto.nome());
         newMunicipio.setUf(uf);
 
         this.municipioRepository.save(newMunicipio);

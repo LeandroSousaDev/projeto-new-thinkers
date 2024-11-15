@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.controller;
 
+import com.leandroSS.new_thinkers.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.dto.ResponseUfDto;
 import com.leandroSS.new_thinkers.entity.UF;
 import com.leandroSS.new_thinkers.service.UfService;
@@ -21,9 +22,9 @@ public class UfController {
     // adicionar sigla so deve ter 2 caracteres
     //adiciona função que converte para maiuscula
     @PostMapping("/")
-    public ResponseEntity<List<ResponseUfDto>> create(@RequestBody UF uf) {
+    public ResponseEntity<List<ResponseUfDto>> create(@RequestBody CreateUfDto createUfDto) {
 
-        var newUf = ufService.createUf(uf);
+        var newUf = ufService.createUf(createUfDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newUf);
     }
 
