@@ -23,7 +23,7 @@ public class Bairro {
     private Integer status;
 
     @ManyToOne
-    @JoinColumn(name = "CODIGO_MUNICIPIO")
+    @JoinColumn(name = "codigoMunicipio")
     private Municipio municipio;
 
     @OneToMany

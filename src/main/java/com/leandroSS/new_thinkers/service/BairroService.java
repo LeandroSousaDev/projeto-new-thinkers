@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.service;
 
+import com.leandroSS.new_thinkers.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.entity.Bairro;
 import com.leandroSS.new_thinkers.repository.BairroRepository;
@@ -21,15 +22,15 @@ public class BairroService {
                 this.municipioRepository = municipioRepository;
         }
 
-        public List<ResponseBairroDto> createBairro(String codigoMunicipio, Bairro bairro) {
+        public List<ResponseBairroDto> createBairro(CreateBairroDto createBairroDto) {
 
-                var municipio = this.municipioRepository.findById(Integer.valueOf(codigoMunicipio))
+                var municipio = this.municipioRepository.findById(createBairroDto.codigoMunicipio())
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                 "Municipio não exixste"));
 
                 var newBairro = new Bairro();
-                newBairro.setStatus(bairro.getStatus());
-                newBairro.setNome(bairro.getNome());
+                newBairro.setStatus(createBairroDto.status());
+                newBairro.setNome(createBairroDto.nome());
                 newBairro.setMunicipio(municipio);
 
                 this.bairroRepository.save(newBairro);

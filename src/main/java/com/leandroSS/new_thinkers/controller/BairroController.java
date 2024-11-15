@@ -1,5 +1,6 @@
 package com.leandroSS.new_thinkers.controller;
 
+import com.leandroSS.new_thinkers.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.entity.Bairro;
 import com.leandroSS.new_thinkers.service.BairroService;
@@ -20,11 +21,10 @@ public class BairroController {
     }
 
     // pp n pegar o codigo municipio do body?
-    @PostMapping("/{codigoMunicipio}")
-    public ResponseEntity<List<ResponseBairroDto>> create(@PathVariable("codigoMunicipio") String codigoMunicipio,
-            @RequestBody Bairro bairro) {
+    @PostMapping("/")
+    public ResponseEntity<List<ResponseBairroDto>> create(@RequestBody CreateBairroDto createBairroDto) {
 
-        var newBairro = bairroService.createBairro(codigoMunicipio, bairro);
+        var newBairro = bairroService.createBairro(createBairroDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newBairro);
 
     }
