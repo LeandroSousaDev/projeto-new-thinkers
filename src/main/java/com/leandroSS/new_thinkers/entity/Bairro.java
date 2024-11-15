@@ -3,6 +3,9 @@ package com.leandroSS.new_thinkers.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "TB_BAIRRO")
@@ -22,6 +25,9 @@ public class Bairro {
     @ManyToOne
     @JoinColumn(name = "CODIGO_MUNICIPIO")
     private Municipio municipio;
+
+    @OneToMany
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Bairro() {
     }
