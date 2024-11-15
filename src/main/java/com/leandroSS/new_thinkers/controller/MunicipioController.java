@@ -18,7 +18,6 @@ public class MunicipioController {
         this.municipioService = municipioService;
     }
 
-    //pq n pegar o codigo municipio do body?
     @PostMapping("/")
     public ResponseEntity<List<ResponseMunicipioDto>> create(@RequestBody CreateMunicipioDto createMunicipioDto) {
 
