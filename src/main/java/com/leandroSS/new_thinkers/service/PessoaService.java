@@ -98,4 +98,29 @@ public class PessoaService {
         );
     }
 
+    public List<ResponsePessoaDto> listAllPessoas() {
+        var allPessoas = this.pessoaRepository.findAll();
+
+        return allPessoas
+                .stream()
+                .map(pessoa -> new  ResponsePessoaDto(
+                        pessoa.getCodigoPessoa(),
+                        pessoa.getNome(),
+                        pessoa.getSobrenome(),
+                        pessoa.getIdade(),
+                        pessoa.getLogin(),
+                        pessoa.getSenha(),
+                        pessoa.getStatus(),
+                        pessoa.getEnderecos().stream()
+                                .map(endereco -> new ResponseEnderecoDto(
+                                        endereco.getCodigoEndereco(),
+                                        endereco.getPessoa().getCodigoPessoa(),
+                                        endereco.getBairro().getCodigoBairro(),
+                                        endereco.getNomeRua(),
+                                        endereco.getNumero(),
+                                        endereco.getComplemento(),
+                                        endereco.getCep(),
+                                        null)).toList()
+                        )).toList();
+    }
 }
