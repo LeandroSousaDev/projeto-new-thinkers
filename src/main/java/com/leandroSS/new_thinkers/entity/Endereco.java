@@ -19,8 +19,8 @@ public class Endereco {
     @Column(name = "NUMERO")
     private String numero;
 
-    @Column(name = "COMPLETO")
-    private String completo;
+    @Column(name = "COMPLEMENTO")
+    private String complemento;
 
     @Column(name = "CEP")
     private String cep;
@@ -39,14 +39,14 @@ public class Endereco {
     public Endereco(Integer codigoEndereco,
                     String nomeRua,
                     String numero,
-                    String completo,
+                    String complemento,
                     String cep,
                     Pessoa pessoa,
                     Bairro bairro) {
         this.codigoEndereco = codigoEndereco;
         this.nomeRua = nomeRua;
         this.numero = numero;
-        this.completo = completo;
+        this.complemento = complemento;
         this.cep = cep;
         this.pessoa = pessoa;
         this.bairro = bairro;

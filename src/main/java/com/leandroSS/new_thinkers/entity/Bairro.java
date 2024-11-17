@@ -26,7 +26,7 @@ public class Bairro {
     @JoinColumn(name = "codigoMunicipio")
     private Municipio municipio;
 
-    @OneToMany
+    @OneToMany(mappedBy = "bairro")
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Bairro() {

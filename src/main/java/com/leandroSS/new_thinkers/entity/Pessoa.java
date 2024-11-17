@@ -19,6 +19,9 @@ public class Pessoa {
     @Column(name = "NOME")
     private String nome;
 
+    @Column(name = "SOBRENOME")
+    private String sobrenome;
+
     @Column(name = "IDADE")
     private Integer idade;
 
@@ -39,6 +42,7 @@ public class Pessoa {
 
     public Pessoa(Integer codigoPessoa,
                   String nome,
+                  String sobrenome,
                   Integer idade,
                   String login,
                   String senha,
@@ -46,6 +50,7 @@ public class Pessoa {
                   List<Endereco> enderecos) {
         this.codigoPessoa = codigoPessoa;
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.idade = idade;
         this.login = login;
         this.senha = senha;
