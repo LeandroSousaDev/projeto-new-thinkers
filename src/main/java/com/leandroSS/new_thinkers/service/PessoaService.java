@@ -1,9 +1,9 @@
 package com.leandroSS.new_thinkers.service;
 
-import com.leandroSS.new_thinkers.dto.CreateEnderecoDto;
-import com.leandroSS.new_thinkers.dto.CreatePessoaDto;
-import com.leandroSS.new_thinkers.dto.ResponseEnderecoDto;
-import com.leandroSS.new_thinkers.dto.ResponsePessoaDto;
+import com.leandroSS.new_thinkers.dto.Endereco.CreateEnderecoDto;
+import com.leandroSS.new_thinkers.dto.Pessoa.CreatePessoaDto;
+import com.leandroSS.new_thinkers.dto.Endereco.ResponseEnderecoDto;
+import com.leandroSS.new_thinkers.dto.Pessoa.ResponsePessoaDto;
 import com.leandroSS.new_thinkers.entity.Endereco;
 import com.leandroSS.new_thinkers.entity.Pessoa;
 import com.leandroSS.new_thinkers.repository.BairroRepository;

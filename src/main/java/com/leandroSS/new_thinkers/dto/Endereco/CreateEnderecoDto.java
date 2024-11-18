@@ -1,4 +1,4 @@
-package com.leandroSS.new_thinkers.dto;
+package com.leandroSS.new_thinkers.dto.Endereco;
 
 public record CreateEnderecoDto(Integer codigoBairro,
                                 String nomeRua,

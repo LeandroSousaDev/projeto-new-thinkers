@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.service;
 
-import com.leandroSS.new_thinkers.dto.CreateBairroDto;
-import com.leandroSS.new_thinkers.dto.ResponseBairroDto;
+import com.leandroSS.new_thinkers.dto.Bairro.CreateBairroDto;
+import com.leandroSS.new_thinkers.dto.Bairro.ResponseBairroDto;
 import com.leandroSS.new_thinkers.entity.Bairro;
 import com.leandroSS.new_thinkers.repository.BairroRepository;
 import com.leandroSS.new_thinkers.repository.MunicipioRepository;

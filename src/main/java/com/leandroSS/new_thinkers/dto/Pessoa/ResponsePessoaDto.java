@@ -1,4 +1,6 @@
-package com.leandroSS.new_thinkers.dto;
+package com.leandroSS.new_thinkers.dto.Pessoa;
+
+import com.leandroSS.new_thinkers.dto.Endereco.ResponseEnderecoDto;
 
 import java.util.List;
 

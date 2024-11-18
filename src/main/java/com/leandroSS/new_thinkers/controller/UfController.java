@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.controller;
 
-import com.leandroSS.new_thinkers.dto.CreateUfDto;
-import com.leandroSS.new_thinkers.dto.ResponseUfDto;
+import com.leandroSS.new_thinkers.dto.UF.CreateUfDto;
+import com.leandroSS.new_thinkers.dto.UF.ResponseUfDto;
 import com.leandroSS.new_thinkers.entity.UF;
 import com.leandroSS.new_thinkers.service.UfService;
 import org.springframework.http.HttpStatusCode;

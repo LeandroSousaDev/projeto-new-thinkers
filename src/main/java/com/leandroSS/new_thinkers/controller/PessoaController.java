@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.controller;
 
-import com.leandroSS.new_thinkers.dto.CreatePessoaDto;
-import com.leandroSS.new_thinkers.dto.ResponsePessoaDto;
+import com.leandroSS.new_thinkers.dto.Pessoa.CreatePessoaDto;
+import com.leandroSS.new_thinkers.dto.Pessoa.ResponsePessoaDto;
 import com.leandroSS.new_thinkers.service.PessoaService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.controller;
 
-import com.leandroSS.new_thinkers.dto.CreateMunicipioDto;
-import com.leandroSS.new_thinkers.dto.ResponseMunicipioDto;
+import com.leandroSS.new_thinkers.dto.Municipio.CreateMunicipioDto;
+import com.leandroSS.new_thinkers.dto.Municipio.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Municipio;
 import com.leandroSS.new_thinkers.service.MunicipioService;
 import org.springframework.http.HttpStatusCode;
