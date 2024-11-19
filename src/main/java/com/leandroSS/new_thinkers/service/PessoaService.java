@@ -26,8 +26,8 @@ public class PessoaService {
     private final BairroRepository bairroRepository;
 
     public PessoaService(PessoaRepository pessoaRepository,
-                         EnderecoRepository enderecoRepository,
-                         BairroRepository bairroRepository) {
+            EnderecoRepository enderecoRepository,
+            BairroRepository bairroRepository) {
         this.pessoaRepository = pessoaRepository;
         this.enderecoRepository = enderecoRepository;
         this.bairroRepository = bairroRepository;
@@ -35,16 +35,16 @@ public class PessoaService {
 
     public ResponsePessoaDto createPessoa(CreatePessoaDto createPessoaDto) {
 
-       List<Endereco> enderecos = new ArrayList<>();
+        List<Endereco> enderecos = new ArrayList<>();
 
-        for(CreateEnderecoDto id : createPessoaDto.endereco()) {
+        for (CreateEnderecoDto id : createPessoaDto.endereco()) {
             var codigoBairro = id.codigoBairro();
 
             var bairro = this.bairroRepository.findById(codigoBairro)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                             "bairro não exixste"));
 
-           var  newEndereco = new Endereco();
+            var newEndereco = new Endereco();
             newEndereco.setBairro(bairro);
             newEndereco.setNomeRua(id.nomeRua());
             newEndereco.setNumero(id.numero());
@@ -65,12 +65,10 @@ public class PessoaService {
 
         this.pessoaRepository.save(newPessoa);
 
-
-        for(Endereco pessoa: enderecos) {
+        for (Endereco pessoa : enderecos) {
             pessoa.setPessoa(newPessoa);
             this.enderecoRepository.save(pessoa);
         }
-
 
         return new ResponsePessoaDto(
                 newPessoa.getCodigoPessoa(),
@@ -90,7 +88,8 @@ public class PessoaService {
                                 endereco.getNumero(),
                                 endereco.getComplemento(),
                                 endereco.getCep(),
-                                null)).toList());
+                                null))
+                        .toList());
     }
 
     public List<ResponsePessoaDto> listAllPessoas() {
@@ -98,7 +97,7 @@ public class PessoaService {
 
         return allPessoas
                 .stream()
-                .map(pessoa -> new  ResponsePessoaDto(
+                .map(pessoa -> new ResponsePessoaDto(
                         pessoa.getCodigoPessoa(),
                         pessoa.getNome(),
                         pessoa.getSobrenome(),
@@ -106,12 +105,23 @@ public class PessoaService {
                         pessoa.getLogin(),
                         pessoa.getSenha(),
                         pessoa.getStatus(),
-                        new ArrayList<>()
-                )).toList();
+                        pessoa.getEnderecos()
+                                .stream()
+                                .map(endereco -> new ResponseEnderecoDto(
+                                        endereco.getCodigoEndereco(),
+                                        endereco.getPessoa().getCodigoPessoa(),
+                                        endereco.getBairro().getCodigoBairro(),
+                                        endereco.getNomeRua(),
+                                        endereco.getNumero(),
+                                        endereco.getComplemento(),
+                                        endereco.getCep(),
+                                        null))
+                                .toList()))
+                .toList();
     }
 
     public ResponsePessoaDto uptatePessoa(@PathVariable String codigoPessoa,
-                                          @RequestBody CreatePessoaDto createPessoaDto) {
+            @RequestBody CreatePessoaDto createPessoaDto) {
 
         var pessoa = this.pessoaRepository.findById(Integer.valueOf(codigoPessoa))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
@@ -141,38 +151,7 @@ public class PessoaService {
             pessoa.setStatus(createPessoaDto.status());
         }
 
-        if(createPessoaDto.endereco().isEmpty()) {
-            List<Endereco> endereco = new ArrayList<>();
-            pessoa.setEnderecos(endereco);
-        }
-
-
-//        List<Endereco> newEndereco = new ArrayList<>();
-//
-//        for(Endereco endereco : pessoa.getEnderecos()) {
-//
-//            pessoa.getEnderecos().clear();
-//
-//            var bairro = this.bairroRepository.findById(endereco.getBairro().getCodigoBairro())
-//                    .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-//                            "bairro não exixste"));
-//
-//            var newEnderecos = new Endereco();
-//            newEnderecos.setPessoa(pessoa);
-//            newEnderecos.setNomeRua(endereco.getNomeRua());
-//            newEnderecos.setNumero(endereco.getNumero());
-//            newEnderecos.setComplemento(endereco.getComplemento());
-//            newEnderecos.setCep(endereco.getCep());
-//            newEnderecos.setBairro(bairro);
-//
-//            newEndereco.add(newEnderecos);
-//        }
-//
-//        pessoa.setEnderecos(newEndereco);
-//
-//        this.pessoaRepository.save(pessoa);
-//
-
+        this.pessoaRepository.save(pessoa);
 
         return new ResponsePessoaDto(
                 pessoa.getCodigoPessoa(),
@@ -182,17 +161,43 @@ public class PessoaService {
                 pessoa.getLogin(),
                 pessoa.getSenha(),
                 pessoa.getStatus(),
-                pessoa.getEnderecos().stream()
-                        .map(endereco -> new ResponseEnderecoDto(
-                                endereco.getCodigoEndereco(),
-                                endereco.getPessoa().getCodigoPessoa(),
-                                endereco.getBairro().getCodigoBairro(),
-                                endereco.getNomeRua(),
-                                endereco.getNumero(),
-                                endereco.getComplemento(),
-                                endereco.getCep(),
-                                null
-                        )).toList()
-        );
+                new ArrayList<>());
     }
+
+    public ResponseEnderecoDto updateEndereco(@PathVariable String codigoEndereco,
+            @RequestBody CreateEnderecoDto createEnderecoDto) {
+
+        var endereco = this.enderecoRepository.findById(Integer.valueOf(codigoEndereco))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                        "Endereco não exixste"));
+
+        if (createEnderecoDto.nomeRua() != null) {
+            endereco.setNomeRua(createEnderecoDto.nomeRua());
+        }
+
+        if (createEnderecoDto.numero() != null) {
+            endereco.setNumero(createEnderecoDto.numero());
+        }
+
+        if (createEnderecoDto.complemento() != null) {
+            endereco.setComplemento(createEnderecoDto.complemento());
+        }
+
+        if (createEnderecoDto.cep() != null) {
+            endereco.setCep(createEnderecoDto.cep());
+        }
+
+        this.enderecoRepository.save(endereco);
+
+        return new ResponseEnderecoDto(
+                endereco.getCodigoEndereco(),
+                endereco.getPessoa().getCodigoPessoa(),
+                endereco.getBairro().getCodigoBairro(),
+                endereco.getNomeRua(),
+                endereco.getNumero(),
+                endereco.getComplemento(),
+                endereco.getCep(),
+                null);
+    }
+
 }

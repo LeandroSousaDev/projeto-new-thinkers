@@ -1,5 +1,7 @@
 package com.leandroSS.new_thinkers.controller;
 
+import com.leandroSS.new_thinkers.dto.Endereco.CreateEnderecoDto;
+import com.leandroSS.new_thinkers.dto.Endereco.ResponseEnderecoDto;
 import com.leandroSS.new_thinkers.dto.Pessoa.CreatePessoaDto;
 import com.leandroSS.new_thinkers.dto.Pessoa.ResponsePessoaDto;
 import com.leandroSS.new_thinkers.service.PessoaService;
@@ -34,8 +36,18 @@ public class PessoaController {
 
     @PutMapping("/{codigoPessoa}")
     public ResponseEntity<ResponsePessoaDto> update(@PathVariable("codigoPessoa") String codigoPessoa,
-                                                    @RequestBody CreatePessoaDto createPessoaDto) {
+            @RequestBody CreatePessoaDto createPessoaDto) {
         var updatePessoa = this.pessoaService.uptatePessoa(codigoPessoa, createPessoaDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updatePessoa);
     }
+
+    @PutMapping("/{codigoEndereco}/endereco")
+    public ResponseEntity<ResponseEnderecoDto> update(@PathVariable("codigoEndereco") String codigoEndereco,
+            @RequestBody CreateEnderecoDto createEnderecoDto) {
+
+        var updateEndereco = this.pessoaService.updateEndereco(codigoEndereco, createEnderecoDto);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateEndereco);
+
+    }
+
 }
