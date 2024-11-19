@@ -31,4 +31,11 @@ public class PessoaController {
         var allPessoas = this.pessoaService.listAllPessoas();
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(allPessoas);
     }
+
+    @PutMapping("/{codigoPessoa}")
+    public ResponseEntity<ResponsePessoaDto> update(@PathVariable("codigoPessoa") String codigoPessoa,
+                                                    @RequestBody CreatePessoaDto createPessoaDto) {
+        var updatePessoa = this.pessoaService.uptatePessoa(codigoPessoa, createPessoaDto);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updatePessoa);
+    }
 }
