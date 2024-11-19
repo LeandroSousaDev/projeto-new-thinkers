@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PessoaService {
@@ -200,4 +201,13 @@ public class PessoaService {
                 null);
     }
 
+    public void deleteEndereco(@PathVariable String codigoEndereco) {
+
+        var id = Integer.valueOf(codigoEndereco);
+        this.enderecoRepository.findById(Integer.valueOf(codigoEndereco))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                        "Endereco não exixste"));
+
+        this.enderecoRepository.deleteById(id);
+    }
 }

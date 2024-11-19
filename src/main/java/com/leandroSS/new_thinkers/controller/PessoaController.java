@@ -50,4 +50,9 @@ public class PessoaController {
 
     }
 
+    @DeleteMapping("/{codigoEndereco}/endereco")
+    public ResponseEntity<String> delete(@PathVariable("codigoEndereco") String codigoEndereco) {
+        this.pessoaService.deleteEndereco(codigoEndereco);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("deletado com suceço");
+    }
 }
