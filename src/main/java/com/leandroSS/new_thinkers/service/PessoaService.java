@@ -141,6 +141,11 @@ public class PessoaService {
             pessoa.setStatus(createPessoaDto.status());
         }
 
+        if(createPessoaDto.endereco().isEmpty()) {
+            List<Endereco> endereco = new ArrayList<>();
+            pessoa.setEnderecos(endereco);
+        }
+
 
 //        List<Endereco> newEndereco = new ArrayList<>();
 //
@@ -177,7 +182,17 @@ public class PessoaService {
                 pessoa.getLogin(),
                 pessoa.getSenha(),
                 pessoa.getStatus(),
-                new ArrayList<>()
+                pessoa.getEnderecos().stream()
+                        .map(endereco -> new ResponseEnderecoDto(
+                                endereco.getCodigoEndereco(),
+                                endereco.getPessoa().getCodigoPessoa(),
+                                endereco.getBairro().getCodigoBairro(),
+                                endereco.getNomeRua(),
+                                endereco.getNumero(),
+                                endereco.getComplemento(),
+                                endereco.getCep(),
+                                null
+                        )).toList()
         );
     }
 }
