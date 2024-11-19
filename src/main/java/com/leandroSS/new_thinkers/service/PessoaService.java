@@ -17,7 +17,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PessoaService {
@@ -62,7 +61,6 @@ public class PessoaService {
         newPessoa.setLogin(createPessoaDto.login());
         newPessoa.setSenha(createPessoaDto.senha());
         newPessoa.setStatus(createPessoaDto.status());
-        newPessoa.setEnderecos(enderecos);
 
         this.pessoaRepository.save(newPessoa);
 
