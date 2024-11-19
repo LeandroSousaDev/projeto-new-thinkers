@@ -165,6 +165,8 @@ public class PessoaService {
                 new ArrayList<>());
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+
     public ResponseEnderecoDto updateEndereco(@PathVariable String codigoEndereco,
             @RequestBody CreateEnderecoDto createEnderecoDto) {
 
@@ -209,5 +211,47 @@ public class PessoaService {
                         "Endereco não exixste"));
 
         this.enderecoRepository.deleteById(id);
+    }
+
+    public ResponsePessoaDto addEndereco(@PathVariable String codigoPessoa,
+            @RequestBody CreateEnderecoDto createEnderecoDto) {
+        var pessoa = this.pessoaRepository.findById(Integer.valueOf(codigoPessoa))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                        "pessoa não exixste"));
+
+        var bairro = this.bairroRepository.findById(createEnderecoDto.codigoBairro())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                        "bairo não exixste"));
+
+        var newEndereco = new Endereco();
+        newEndereco.setNomeRua(createEnderecoDto.nomeRua());
+        newEndereco.setNumero(createEnderecoDto.numero());
+        newEndereco.setComplemento(createEnderecoDto.complemento());
+        newEndereco.setCep(createEnderecoDto.cep());
+        newEndereco.setBairro(bairro);
+        newEndereco.setPessoa(pessoa);
+
+        this.enderecoRepository.save(newEndereco);
+
+        return new ResponsePessoaDto(
+                pessoa.getCodigoPessoa(),
+                pessoa.getNome(),
+                pessoa.getSobrenome(),
+                pessoa.getIdade(),
+                pessoa.getLogin(),
+                pessoa.getSenha(),
+                pessoa.getStatus(),
+                pessoa.getEnderecos()
+                        .stream()
+                        .map(endereco -> new ResponseEnderecoDto(
+                                endereco.getCodigoEndereco(),
+                                endereco.getPessoa().getCodigoPessoa(),
+                                endereco.getBairro().getCodigoBairro(),
+                                endereco.getNomeRua(),
+                                endereco.getNumero(),
+                                endereco.getComplemento(),
+                                endereco.getCep(),
+                                null))
+                        .toList());
     }
 }

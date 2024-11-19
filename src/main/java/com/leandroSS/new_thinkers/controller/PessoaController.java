@@ -55,4 +55,13 @@ public class PessoaController {
         this.pessoaService.deleteEndereco(codigoEndereco);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("deletado com suceço");
     }
+
+    @PostMapping("/{codigoPessoa}/endereco")
+    public ResponseEntity<ResponsePessoaDto> create(@PathVariable("codigoPessoa") String codigoPessoa,
+            @RequestBody CreateEnderecoDto createEnderecoDto) {
+
+        var newEndereco = this.pessoaService.addEndereco(codigoPessoa, createEnderecoDto);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newEndereco);
+
+    }
 }
