@@ -30,7 +30,6 @@ public class UfController {
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newUf);
     }
 
-    // Rota de pesquisa de UF(pesquisar como fazer pesquisa por query em Java)
     @GetMapping("/")
     public ResponseEntity<List<ResponseUfDto>> readAll() {
 
@@ -39,7 +38,7 @@ public class UfController {
     }
 
     @GetMapping("/get/")
-    private ResponseEntity listUfBySigla(
+    private ResponseEntity getUf(
             @RequestParam(required = false) String sigla,
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer codigoUf,
