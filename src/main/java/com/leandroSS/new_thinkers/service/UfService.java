@@ -13,11 +13,12 @@ import java.util.List;
 @Service
 public class UfService {
     private final UfRepository ufRepository;
+
     public UfService(UfRepository ufRepository) {
         this.ufRepository = ufRepository;
     }
 
-    public List<ResponseUfDto> createUf(CreateUfDto createUfDto){
+    public List<ResponseUfDto> createUf(CreateUfDto createUfDto) {
 
         var newUf = new UF();
         newUf.setSigla(createUfDto.sigla());
@@ -34,9 +35,8 @@ public class UfService {
                         UFs.getCodigoUf(),
                         UFs.getSigla(),
                         UFs.getNome(),
-                        UFs.getStatus()
-                )).toList();
-
+                        UFs.getStatus()))
+                .toList();
     }
 
     public List<ResponseUfDto> listAllUF() {
@@ -48,8 +48,54 @@ public class UfService {
                         uf.getCodigoUf(),
                         uf.getSigla(),
                         uf.getNome(),
-                        uf.getStatus()
-                )).toList();
+                        uf.getStatus()))
+                .toList();
+    }
+
+    public ResponseUfDto ufBySigla(String sigla) {
+
+        var listUf = this.ufRepository.findBySigla(sigla);
+
+        return new ResponseUfDto(
+                listUf.getCodigoUf(),
+                listUf.getSigla(),
+                listUf.getNome(),
+                listUf.getStatus());
+    }
+
+    public ResponseUfDto ufByNome(String nome) {
+        var listUf = this.ufRepository.findByNome(nome);
+
+        return new ResponseUfDto(
+                listUf.getCodigoUf(),
+                listUf.getSigla(),
+                listUf.getNome(),
+                listUf.getStatus());
+    }
+
+    public ResponseUfDto ufById(Integer codigoUf) {
+
+        var listUf = this.ufRepository.findByCodigoUf(codigoUf);
+
+        return new ResponseUfDto(
+                listUf.getCodigoUf(),
+                listUf.getSigla(),
+                listUf.getNome(),
+                listUf.getStatus());
+    }
+
+    public List<ResponseUfDto> ufByStatus(Integer status) {
+        var listUf = this.ufRepository.findByStatus(status);
+
+        return listUf
+                .stream()
+                .map(uf -> new ResponseUfDto(
+                        uf.getCodigoUf(),
+                        uf.getSigla(),
+                        uf.getNome(),
+                        uf.getStatus()))
+                .toList();
+
     }
 
     public List<ResponseUfDto> updateUF(String codigoUf, UF uf) {
@@ -80,8 +126,8 @@ public class UfService {
                         UFs.getCodigoUf(),
                         UFs.getSigla(),
                         UFs.getNome(),
-                        UFs.getStatus()
-                )).toList();
+                        UFs.getStatus()))
+                .toList();
 
     }
 }
