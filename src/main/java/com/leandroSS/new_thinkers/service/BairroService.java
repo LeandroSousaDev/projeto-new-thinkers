@@ -2,6 +2,7 @@ package com.leandroSS.new_thinkers.service;
 
 import com.leandroSS.new_thinkers.dto.Bairro.CreateBairroDto;
 import com.leandroSS.new_thinkers.dto.Bairro.ResponseBairroDto;
+import com.leandroSS.new_thinkers.dto.Municipio.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Bairro;
 import com.leandroSS.new_thinkers.repository.BairroRepository;
 import com.leandroSS.new_thinkers.repository.MunicipioRepository;
@@ -60,6 +61,65 @@ public class BairroService {
                                                 bairros.getStatus(),
                                                 null))
                                 .toList();
+        }
+
+        public List<ResponseBairroDto> bairroByNome(String nome) {
+                var listBairro = this.bairroRepository.findByNome(nome);
+
+                return listBairro
+                                .stream()
+                                .map(bairro -> new ResponseBairroDto(
+                                                bairro.getCodigoBairro(),
+                                                bairro.getMunicipio().getCodigoMunicipio(),
+                                                bairro.getNome(),
+                                                bairro.getStatus(),
+                                                null))
+                                .toList();
+        }
+
+        public List<ResponseBairroDto> bairroByStatus(Integer status) {
+                var listBairro = this.bairroRepository.findByStatus(status);
+
+                return listBairro
+                                .stream()
+                                .map(bairro -> new ResponseBairroDto(
+                                                bairro.getCodigoBairro(),
+                                                bairro.getMunicipio().getCodigoMunicipio(),
+                                                bairro.getNome(),
+                                                bairro.getStatus(),
+                                                null))
+                                .toList();
+        }
+
+        public ResponseBairroDto bairroById(Integer codigoBairro) {
+                var listMunicipio = this.bairroRepository.findByCodigoBairro(codigoBairro);
+
+                return new ResponseBairroDto(
+                                listMunicipio.getCodigoBairro(),
+                                listMunicipio.getMunicipio().getCodigoMunicipio(),
+                                listMunicipio.getNome(),
+                                listMunicipio.getStatus(),
+                                null);
+        }
+
+        public List<ResponseBairroDto> bairroByMunicipio(String municipio) {
+                var id = Integer.valueOf(municipio);
+                var municipioCurrent = this.municipioRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                                                "municipio não exixste"));
+
+                var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent);
+
+                return listBairro
+                                .stream()
+                                .map(bairro -> new ResponseBairroDto(
+                                                bairro.getCodigoBairro(),
+                                                bairro.getMunicipio().getCodigoMunicipio(),
+                                                bairro.getNome(),
+                                                bairro.getStatus(),
+                                                null))
+                                .toList();
+
         }
 
         public List<ResponseBairroDto> updateBairro(String codigoBairro, Bairro bairro) {
