@@ -1,9 +1,12 @@
 package com.leandroSS.new_thinkers.service;
 
+import com.leandroSS.new_thinkers.dto.Bairro.ResponseBairroDto;
 import com.leandroSS.new_thinkers.dto.Endereco.CreateEnderecoDto;
 import com.leandroSS.new_thinkers.dto.Pessoa.CreatePessoaDto;
 import com.leandroSS.new_thinkers.dto.Endereco.ResponseEnderecoDto;
+import com.leandroSS.new_thinkers.dto.Municipio.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.dto.Pessoa.ResponsePessoaDto;
+import com.leandroSS.new_thinkers.dto.UF.ResponseUfDto;
 import com.leandroSS.new_thinkers.entity.Endereco;
 import com.leandroSS.new_thinkers.entity.Pessoa;
 import com.leandroSS.new_thinkers.repository.BairroRepository;
@@ -116,6 +119,81 @@ public class PessoaService {
                                         endereco.getCep(),
                                         null))
                                 .toList()))
+                .toList();
+    }
+
+    public ResponsePessoaDto pessoaById(Integer codigoPessoa) {
+        var listPessoa = this.pessoaRepository.findByCodigoPessoa(codigoPessoa);
+
+        var pessoaCurrent = new ResponsePessoaDto(
+            listPessoa.getCodigoPessoa(),
+            listPessoa.getNome(),
+            listPessoa.getSobrenome(),
+            listPessoa.getIdade(),
+            listPessoa.getLogin(),
+            listPessoa.getSenha(),
+            listPessoa.getStatus(),
+            listPessoa.getEnderecos()
+            .stream()
+            .map(endereco -> new ResponseEnderecoDto(
+                endereco.getCodigoEndereco(),
+                endereco.getPessoa().getCodigoPessoa(),
+                endereco.getBairro().getCodigoBairro(),
+                endereco.getNomeRua(),
+                endereco.getNumero(),
+                endereco.getComplemento(),
+                endereco.getCep(),
+                new ResponseBairroDto(
+                    endereco.getBairro().getCodigoBairro(),
+                    endereco.getBairro().getMunicipio().getCodigoMunicipio(),
+                    endereco.getBairro().getNome(),
+                    endereco.getBairro().getStatus(),
+                    new ResponseMunicipioDto(
+                        endereco.getBairro().getMunicipio().getCodigoMunicipio(),
+                        endereco.getBairro().getMunicipio().getUf().getCodigoUf(),
+                        endereco.getBairro().getMunicipio().getNome(),
+                        endereco.getBairro().getMunicipio().getStatus(),
+                        new ResponseUfDto(
+                            endereco.getBairro().getMunicipio().getUf().getCodigoUf(),
+                            endereco.getBairro().getMunicipio().getUf().getSigla(),
+                            endereco.getBairro().getMunicipio().getUf().getNome(),
+                            endereco.getBairro().getMunicipio().getUf().getStatus()
+                        ))))).toList());
+
+        return pessoaCurrent;
+    }
+
+    public List<ResponsePessoaDto> pessoaByLogin(String login) {
+        var listPessoa = this.pessoaRepository.findByLogin(login);
+
+        return listPessoa
+                .stream()
+                .map(pessoa -> new ResponsePessoaDto(
+                        pessoa.getCodigoPessoa(),
+                        pessoa.getNome(),
+                        pessoa.getSobrenome(),
+                        pessoa.getIdade(),
+                        pessoa.getLogin(),
+                        pessoa.getSenha(),
+                        pessoa.getStatus(),
+                        new ArrayList<>()))
+                .toList();
+    }
+
+    public List<ResponsePessoaDto> pessoaByStatus(Integer status) {
+        var listPessoa = this.pessoaRepository.findByStatus(status);
+
+        return listPessoa
+                .stream()
+                .map(pessoa -> new ResponsePessoaDto(
+                        pessoa.getCodigoPessoa(),
+                        pessoa.getNome(),
+                        pessoa.getSobrenome(),
+                        pessoa.getIdade(),
+                        pessoa.getLogin(),
+                        pessoa.getSenha(),
+                        pessoa.getStatus(),
+                        new ArrayList<>()))
                 .toList();
     }
 
