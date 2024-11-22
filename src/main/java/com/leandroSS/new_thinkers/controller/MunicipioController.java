@@ -3,7 +3,6 @@ package com.leandroSS.new_thinkers.controller;
 import com.leandroSS.new_thinkers.dto.Municipio.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.dto.Municipio.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Municipio;
-import com.leandroSS.new_thinkers.entity.UF;
 import com.leandroSS.new_thinkers.service.MunicipioService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,7 @@ public class MunicipioController {
     }
 
     @GetMapping("/get/")
-    private ResponseEntity getUf(
+    private ResponseEntity getMunicipio(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoMunicipio,

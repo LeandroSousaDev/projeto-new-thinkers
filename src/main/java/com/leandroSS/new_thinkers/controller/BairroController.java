@@ -2,7 +2,6 @@ package com.leandroSS.new_thinkers.controller;
 
 import com.leandroSS.new_thinkers.dto.Bairro.CreateBairroDto;
 import com.leandroSS.new_thinkers.dto.Bairro.ResponseBairroDto;
-import com.leandroSS.new_thinkers.dto.Municipio.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.entity.Bairro;
 import com.leandroSS.new_thinkers.service.BairroService;
 import org.springframework.http.HttpStatusCode;
@@ -38,7 +37,7 @@ public class BairroController {
     }
 
     @GetMapping("/get/")
-    private ResponseEntity getMunicipio(
+    private ResponseEntity getBairro(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoBairro,
