@@ -5,7 +5,6 @@ import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,9 +17,6 @@ public class UfController {
         this.ufService = ufService;
     }
 
-    // adiciona verificação para UF repedidas
-    // adicionar sigla so deve ter 2 caracteres
-    // adiciona função que converte para maiuscula
     @PostMapping("/")
     public ResponseEntity<List<ResponseUfDto>> create(@RequestBody CreateUfDto createUfDto) {
 
@@ -29,13 +25,6 @@ public class UfController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ResponseUfDto>> readAll() {
-
-        var UFs = this.ufService.listAllUF();
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
-    }
-
-    @GetMapping("/get/")
     private ResponseEntity getUf(
             @RequestParam(required = false) String sigla,
             @RequestParam(required = false) String nome,
@@ -65,7 +54,8 @@ public class UfController {
             UFs = this.ufService.ufByStatus(status);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
         } else {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "voce fez uma pesquisa nula");
+            UFs = this.ufService.listAllUF();
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
         }
 
     }
@@ -76,4 +66,5 @@ public class UfController {
         var updateList = this.ufService.updateUF(codigoUf, uf);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
     }
+
 }
