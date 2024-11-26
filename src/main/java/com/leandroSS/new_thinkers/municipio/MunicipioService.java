@@ -120,19 +120,28 @@ public class MunicipioService {
 
         }
 
-        public List<ResponseMunicipioDto> updateMunicipio(String codigoMunicipio, Municipio municipio) {
+        public List<ResponseMunicipioDto> updateMunicipio(String codigoMunicipio,
+                        CreateMunicipioDto createMunicipioDto) {
 
                 var id = Integer.valueOf(codigoMunicipio);
                 var municipioCurrent = this.municipioRepository.findById(id)
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                 "municipio não exixste"));
 
-                if (municipio.getNome() != null) {
-                        municipioCurrent.setNome(municipio.getNome());
+                var uf = this.ufRepository.findById(createMunicipioDto.codigoUf())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
+                                                "Estado não exixste"));
+
+                if (createMunicipioDto.nome() != null) {
+                        municipioCurrent.setNome(createMunicipioDto.nome());
                 }
 
-                if (municipio.getStatus() != null) {
-                        municipioCurrent.setStatus(municipio.getStatus());
+                if (createMunicipioDto.status() != null) {
+                        municipioCurrent.setStatus(createMunicipioDto.status());
+                }
+
+                if (createMunicipioDto.codigoUf() != null) {
+                        municipioCurrent.setUf(uf);
                 }
 
                 this.municipioRepository.save(municipioCurrent);

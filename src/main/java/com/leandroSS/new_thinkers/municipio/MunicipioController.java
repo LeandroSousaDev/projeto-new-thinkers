@@ -27,8 +27,6 @@ public class MunicipioController {
 
     }
 
-    // Rota de pesquisa de Municipio(pesquisar como fazer pesquisa por query em
-    // Java)
     @GetMapping("/")
     public ResponseEntity<List<ResponseMunicipioDto>> readAll() {
         var municipios = this.municipioService.listAllMunicipio();
@@ -70,9 +68,9 @@ public class MunicipioController {
 
     @PutMapping("/{codigoMunicipio}")
     public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@PathVariable("codigoMunicipio") String codigoMunicipio,
-            @RequestBody Municipio municipio) {
+            @RequestBody CreateMunicipioDto createMunicipioDto) {
 
-        var updateList = this.municipioService.updateMunicipio(codigoMunicipio, municipio);
+        var updateList = this.municipioService.updateMunicipio(codigoMunicipio, createMunicipioDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
 
     }
