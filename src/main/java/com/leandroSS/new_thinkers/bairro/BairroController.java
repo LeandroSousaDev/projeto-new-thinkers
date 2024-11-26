@@ -28,13 +28,6 @@ public class BairroController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ResponseBairroDto>> readAll() {
-
-        var bairros = this.bairroService.listAllBairro();
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bairros);
-    }
-
-    @GetMapping("/get/")
     private ResponseEntity getBairro(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
@@ -61,8 +54,8 @@ public class BairroController {
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bairros);
 
         } else {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "voce fez uma pesquisa nula");
-
+            bairros = this.bairroService.listAllBairro();
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bairros);
         }
 
     }

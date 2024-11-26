@@ -28,12 +28,6 @@ public class MunicipioController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ResponseMunicipioDto>> readAll() {
-        var municipios = this.municipioService.listAllMunicipio();
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
-    }
-
-    @GetMapping("/get/")
     private ResponseEntity getMunicipio(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
@@ -60,8 +54,8 @@ public class MunicipioController {
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
 
         } else {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "voce fez uma pesquisa nula");
-
+            municipios = this.municipioService.listAllMunicipio();
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
         }
 
     }

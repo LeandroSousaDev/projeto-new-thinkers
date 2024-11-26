@@ -26,13 +26,6 @@ public class PessoaController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ResponsePessoaDto>> readAll() {
-
-        var allPessoas = this.pessoaService.listAllPessoas();
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(allPessoas);
-    }
-
-    @GetMapping("/get/")
     private ResponseEntity getPessoa(
             @RequestParam(required = false) Integer codigoPessoa,
             @RequestParam(required = false) String login,
@@ -54,7 +47,8 @@ public class PessoaController {
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(pessoas);
 
         } else {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "voce fez uma pesquisa nula");
+            pessoas = this.pessoaService.listAllPessoas();
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(pessoas);
         }
     }
 
