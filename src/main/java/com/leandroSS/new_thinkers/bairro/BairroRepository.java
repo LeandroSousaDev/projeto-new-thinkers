@@ -1,18 +1,18 @@
 package com.leandroSS.new_thinkers.bairro;
 
-import com.leandroSS.new_thinkers.municipio.Municipio;
+import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BairroRepository extends JpaRepository<Bairro, Integer> {
-    List<Bairro> findByMunicipio(Municipio municipio);
+public interface BairroRepository extends JpaRepository<BairroEntity, Integer> {
+    List<BairroEntity> findByMunicipio(MunicipioEntity municipio);
 
-    List<Bairro> findByNome(String nome);
+    List<BairroEntity> findByNome(String nome);
 
-    List<Bairro> findByStatus(Integer status);
+    List<BairroEntity> findByStatus(Integer status);
 
-    Bairro findByCodigoBairro(Integer codigoBairro);
+    BairroEntity findByCodigoBairro(Integer codigoBairro);
 
 }

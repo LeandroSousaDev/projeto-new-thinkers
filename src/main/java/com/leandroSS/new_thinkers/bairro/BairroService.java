@@ -26,7 +26,7 @@ public class BairroService {
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                 "Municipio não exixste"));
 
-                var newBairro = new Bairro();
+                var newBairro = new BairroEntity();
                 newBairro.setStatus(createBairroDto.status());
                 newBairro.setNome(createBairroDto.nome());
                 newBairro.setMunicipio(municipio);

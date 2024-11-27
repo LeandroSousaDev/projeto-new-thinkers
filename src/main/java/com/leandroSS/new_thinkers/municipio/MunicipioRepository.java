@@ -1,19 +1,19 @@
 package com.leandroSS.new_thinkers.municipio;
 
-import com.leandroSS.new_thinkers.UF.UF;
+import com.leandroSS.new_thinkers.UF.UfEntity;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
+public interface MunicipioRepository extends JpaRepository<MunicipioEntity, Integer> {
 
-    List<Municipio> findByUf(UF uf);
+    List<MunicipioEntity> findByUf(UfEntity uf);
 
-    List<Municipio> findByNome(String nome);
+    List<MunicipioEntity> findByNome(String nome);
 
-    List<Municipio> findByStatus(Integer status);
+    List<MunicipioEntity> findByStatus(Integer status);
 
-    Municipio findByCodigoMunicipio(Integer codigoMuniciopio);
+    MunicipioEntity findByCodigoMunicipio(Integer codigoMuniciopio);
 
 }

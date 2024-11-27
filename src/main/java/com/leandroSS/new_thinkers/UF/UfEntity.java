@@ -1,6 +1,6 @@
 package com.leandroSS.new_thinkers.UF;
 
-import com.leandroSS.new_thinkers.municipio.Municipio;
+import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "TB_UF")
 @Data
-public class UF {
+public class UfEntity {
     @Id
     @Column(name = "CODIGO_UF")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,12 +27,12 @@ public class UF {
     private Integer status;
 
     @OneToMany(mappedBy = "uf")
-    private List<Municipio> municipios = new ArrayList<>();
+    private List<MunicipioEntity> municipios = new ArrayList<>();
 
-    public UF() {
+    public UfEntity() {
     }
 
-    public UF(Integer codigoUf, String sigla, String nome, Integer status) {
+    public UfEntity(Integer codigoUf, String sigla, String nome, Integer status) {
         this.codigoUf = codigoUf;
         this.sigla = sigla;
         this.nome = nome;

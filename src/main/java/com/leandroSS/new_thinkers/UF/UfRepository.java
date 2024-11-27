@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UfRepository extends JpaRepository<UF, Integer> {
-    UF findBySigla(String sigla);
+public interface UfRepository extends JpaRepository<UfEntity, Integer> {
+    UfEntity findBySigla(String sigla);
 
-    UF findByNome(String nome);
+    UfEntity findByNome(String nome);
 
-    List<UF> findByStatus(Integer status);
+    List<UfEntity> findByStatus(Integer status);
 
-    UF findByCodigoUf(Integer codigoUf);
+    UfEntity findByCodigoUf(Integer codigoUf);
 }

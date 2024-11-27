@@ -1,13 +1,13 @@
 package com.leandroSS.new_thinkers.pessoa.entity;
 
-import com.leandroSS.new_thinkers.bairro.Bairro;
+import com.leandroSS.new_thinkers.bairro.BairroEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Table(name = "TB_ENDERECO")
 @Data
-public class Endereco {
+public class EnderecoEntity {
 
     @Id
     @Column(name = "CODIGO_ENDERECO")
@@ -28,22 +28,22 @@ public class Endereco {
 
     @ManyToOne
     @JoinColumn(name = "codigoPessoa")
-    private Pessoa pessoa;
+    private PessoaEntity pessoa;
 
     @ManyToOne
     @JoinColumn(name = "codigoBairro")
-    private Bairro bairro;
+    private BairroEntity bairro;
 
-    public Endereco() {
+    public EnderecoEntity() {
     }
 
-    public Endereco(Integer codigoEndereco,
-                    String nomeRua,
-                    String numero,
-                    String complemento,
-                    String cep,
-                    Pessoa pessoa,
-                    Bairro bairro) {
+    public EnderecoEntity(Integer codigoEndereco,
+                          String nomeRua,
+                          String numero,
+                          String complemento,
+                          String cep,
+                          PessoaEntity pessoa,
+                          BairroEntity bairro) {
         this.codigoEndereco = codigoEndereco;
         this.nomeRua = nomeRua;
         this.numero = numero;

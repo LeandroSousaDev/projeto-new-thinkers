@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.bairro;
 
-import com.leandroSS.new_thinkers.pessoa.entity.Endereco;
-import com.leandroSS.new_thinkers.municipio.Municipio;
+import com.leandroSS.new_thinkers.pessoa.entity.EnderecoEntity;
+import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "TB_BAIRRO")
 @Data
-public class Bairro {
+public class BairroEntity {
     @Id
     @Column(name = "CODIGO_BAIRRO")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,15 +26,15 @@ public class Bairro {
 
     @ManyToOne
     @JoinColumn(name = "codigoMunicipio")
-    private Municipio municipio;
+    private MunicipioEntity municipio;
 
     @OneToMany(mappedBy = "bairro")
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<EnderecoEntity> enderecos = new ArrayList<>();
 
-    public Bairro() {
+    public BairroEntity() {
     }
 
-    public Bairro(Integer codigoBairro, String nome, Integer status, Municipio municipio) {
+    public BairroEntity(Integer codigoBairro, String nome, Integer status, MunicipioEntity municipio) {
         this.codigoBairro = codigoBairro;
         this.nome = nome;
         this.status = status;

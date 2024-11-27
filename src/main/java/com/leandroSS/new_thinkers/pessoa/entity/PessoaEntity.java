@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "TB_PESSOA")
 @Data
-public class Pessoa {
+public class PessoaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -35,19 +35,19 @@ public class Pessoa {
     private Integer status;
 
     @OneToMany(mappedBy = "pessoa")
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<EnderecoEntity> enderecos = new ArrayList<>();
 
-    public Pessoa() {
+    public PessoaEntity() {
     }
 
-    public Pessoa(Integer codigoPessoa,
-                  String nome,
-                  String sobrenome,
-                  Integer idade,
-                  String login,
-                  String senha,
-                  Integer status,
-                  List<Endereco> enderecos) {
+    public PessoaEntity(Integer codigoPessoa,
+                        String nome,
+                        String sobrenome,
+                        Integer idade,
+                        String login,
+                        String senha,
+                        Integer status,
+                        List<EnderecoEntity> enderecos) {
         this.codigoPessoa = codigoPessoa;
         this.nome = nome;
         this.sobrenome = sobrenome;

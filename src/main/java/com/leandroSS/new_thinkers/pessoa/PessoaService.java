@@ -2,8 +2,8 @@ package com.leandroSS.new_thinkers.pessoa;
 
 import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.pessoa.dto.endereco.CreateEnderecoDto;
-import com.leandroSS.new_thinkers.pessoa.entity.Endereco;
-import com.leandroSS.new_thinkers.pessoa.entity.Pessoa;
+import com.leandroSS.new_thinkers.pessoa.entity.EnderecoEntity;
+import com.leandroSS.new_thinkers.pessoa.entity.PessoaEntity;
 import com.leandroSS.new_thinkers.pessoa.dto.pessoa.CreatePessoaDto;
 import com.leandroSS.new_thinkers.pessoa.dto.endereco.ResponseEnderecoDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
@@ -38,7 +38,7 @@ public class PessoaService {
 
         public ResponsePessoaDto createPessoa(CreatePessoaDto createPessoaDto) {
 
-                List<Endereco> enderecos = new ArrayList<>();
+                List<EnderecoEntity> enderecos = new ArrayList<>();
 
                 for (CreateEnderecoDto id : createPessoaDto.endereco()) {
                         var codigoBairro = id.codigoBairro();
@@ -47,7 +47,7 @@ public class PessoaService {
                                         .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                         "bairro não exixste"));
 
-                        var newEndereco = new Endereco();
+                        var newEndereco = new EnderecoEntity();
                         newEndereco.setBairro(bairro);
                         newEndereco.setNomeRua(id.nomeRua());
                         newEndereco.setNumero(id.numero());
@@ -57,7 +57,7 @@ public class PessoaService {
                         enderecos.add(newEndereco);
                 }
 
-                var newPessoa = new Pessoa();
+                var newPessoa = new PessoaEntity();
                 newPessoa.setNome(createPessoaDto.nome());
                 newPessoa.setSobrenome(createPessoaDto.sobrenome());
                 newPessoa.setIdade(createPessoaDto.idade());
@@ -67,7 +67,7 @@ public class PessoaService {
 
                 this.pessoaRepository.save(newPessoa);
 
-                for (Endereco pessoa : enderecos) {
+                for (EnderecoEntity pessoa : enderecos) {
                         pessoa.setPessoa(newPessoa);
                         this.enderecoRepository.save(pessoa);
                 }
@@ -252,7 +252,7 @@ public class PessoaService {
 
                 this.pessoaRepository.save(pessoa);
 
-                for (Endereco endereco : pessoa.getEnderecos()) {
+                for (EnderecoEntity endereco : pessoa.getEnderecos()) {
                         var id = endereco.getCodigoEndereco();
                         this.enderecoRepository.deleteById(id);
                 }
@@ -263,7 +263,7 @@ public class PessoaService {
                                         .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                         "bairro não exixste"));
 
-                        var newEndereco = new Endereco();
+                        var newEndereco = new EnderecoEntity();
                         newEndereco.setNomeRua(endereco.nomeRua());
                         newEndereco.setNumero(endereco.numero());
                         newEndereco.setComplemento(endereco.complemento());

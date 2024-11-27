@@ -26,7 +26,7 @@ public class MunicipioService {
                                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
                                                 "Estado não exixste"));
 
-                var newMunicipio = new Municipio();
+                var newMunicipio = new MunicipioEntity();
                 newMunicipio.setStatus(createMunicipioDto.status());
                 newMunicipio.setNome(createMunicipioDto.nome());
                 newMunicipio.setUf(uf);

@@ -1,7 +1,7 @@
 package com.leandroSS.new_thinkers.municipio;
 
-import com.leandroSS.new_thinkers.UF.UF;
-import com.leandroSS.new_thinkers.bairro.Bairro;
+import com.leandroSS.new_thinkers.UF.UfEntity;
+import com.leandroSS.new_thinkers.bairro.BairroEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "TB_MUNICIPIO")
 @Data
-public class Municipio {
+public class MunicipioEntity {
     @Id
     @Column(name = "CODIGO_MUNICIPIO")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,15 +26,15 @@ public class Municipio {
 
     @ManyToOne
     @JoinColumn(name = "codigoUf")
-    private UF uf;
+    private UfEntity uf;
 
     @OneToMany(mappedBy = "municipio")
-    private List<Bairro> bairros = new ArrayList<>();
+    private List<BairroEntity> bairros = new ArrayList<>();
 
-    public Municipio() {
+    public MunicipioEntity() {
     }
 
-    public Municipio(Integer codigoMunicipio, String nome, Integer status, UF uf) {
+    public MunicipioEntity(Integer codigoMunicipio, String nome, Integer status, UfEntity uf) {
         this.codigoMunicipio = codigoMunicipio;
         this.nome = nome;
         this.status = status;

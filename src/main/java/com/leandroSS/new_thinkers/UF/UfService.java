@@ -18,7 +18,7 @@ public class UfService {
 
     public List<ResponseUfDto> createUf(CreateUfDto createUfDto) {
 
-        var newUf = new UF();
+        var newUf = new UfEntity();
         newUf.setSigla(createUfDto.sigla());
         newUf.setNome(createUfDto.nome());
         newUf.setStatus(createUfDto.status());
@@ -96,7 +96,7 @@ public class UfService {
 
     }
 
-    public List<ResponseUfDto> updateUF(String codigoUf, UF uf) {
+    public List<ResponseUfDto> updateUF(String codigoUf, UfEntity uf) {
 
         var id = Integer.valueOf(codigoUf);
         var ufCurrent = this.ufRepository.findById(id)

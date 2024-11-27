@@ -61,7 +61,7 @@ public class UfController {
     }
 
     @PutMapping("/{codigo_uf}")
-    public ResponseEntity<List<ResponseUfDto>> Update(@PathVariable("codigo_uf") String codigoUf, @RequestBody UF uf) {
+    public ResponseEntity<List<ResponseUfDto>> Update(@PathVariable("codigo_uf") String codigoUf, @RequestBody UfEntity uf) {
 
         var updateList = this.ufService.updateUF(codigoUf, uf);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
