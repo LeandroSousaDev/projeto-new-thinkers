@@ -3,6 +3,7 @@ package com.leandroSS.new_thinkers.municipio;
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.UF.UfRepository;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,11 +21,14 @@ public class MunicipioService {
                 this.ufRepository = ufRepository;
         }
 
-        public List<ResponseMunicipioDto> createMunicipio(CreateMunicipioDto createMunicipioDto) {
+        public List<ResponseMunicipioDto> createMunicipio(CreateMunicipioDto createMunicipioDto)
+                        throws NotFoundException {
 
-                var uf = this.ufRepository.findById(createMunicipioDto.codigoUf())
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Estado não exixste"));
+                var uf = this.ufRepository.findByCodigoUf(createMunicipioDto.codigoUf());
+
+                if (uf == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 var newMunicipio = new MunicipioEntity();
                 newMunicipio.setStatus(createMunicipioDto.status());
@@ -100,11 +104,13 @@ public class MunicipioService {
                                 null);
         }
 
-        public List<ResponseMunicipioDto> municipuioByUF(String uf) {
+        public List<ResponseMunicipioDto> municipuioByUF(String uf) throws NotFoundException {
                 var id = Integer.valueOf(uf);
-                var ufCurrent = this.ufRepository.findById(id)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Estado não exixste"));
+                var ufCurrent = this.ufRepository.findByCodigoUf(id);
+
+                if (ufCurrent == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 var listMunicipio = this.municipioRepository.findByUf(ufCurrent);
 
@@ -121,16 +127,20 @@ public class MunicipioService {
         }
 
         public List<ResponseMunicipioDto> updateMunicipio(String codigoMunicipio,
-                        CreateMunicipioDto createMunicipioDto) {
+                        CreateMunicipioDto createMunicipioDto) throws NotFoundException {
 
                 var id = Integer.valueOf(codigoMunicipio);
-                var municipioCurrent = this.municipioRepository.findById(id)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "municipio não exixste"));
+                var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
 
-                var uf = this.ufRepository.findById(createMunicipioDto.codigoUf())
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Estado não exixste"));
+                if (municipioCurrent == null) {
+                        throw new NotFoundException("Municipio não encontrado");
+                }
+
+                var uf = this.ufRepository.findByCodigoUf(createMunicipioDto.codigoUf());
+
+                if (uf == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 if (createMunicipioDto.nome() != null) {
                         municipioCurrent.setNome(createMunicipioDto.nome());

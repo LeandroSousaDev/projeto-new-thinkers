@@ -2,10 +2,11 @@ package com.leandroSS.new_thinkers.municipio;
 
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,20 +20,19 @@ public class MunicipioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<List<ResponseMunicipioDto>> create(@RequestBody CreateMunicipioDto createMunicipioDto) {
+    public ResponseEntity<List<ResponseMunicipioDto>> create(@RequestBody CreateMunicipioDto createMunicipioDto)
+            throws NotFoundException {
 
         var newMunicipio = municipioService.createMunicipio(createMunicipioDto);
-
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newMunicipio);
-
     }
 
     @GetMapping("/")
-    private ResponseEntity getMunicipio(
+    public ResponseEntity getMunicipio(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoMunicipio,
-            @RequestParam(required = false) String uf) {
+            @RequestParam(required = false) String uf) throws NotFoundException {
 
         ResponseMunicipioDto municipio;
         List<ResponseMunicipioDto> municipios;
@@ -62,7 +62,7 @@ public class MunicipioController {
 
     @PutMapping("/{codigoMunicipio}")
     public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@PathVariable("codigoMunicipio") String codigoMunicipio,
-            @RequestBody CreateMunicipioDto createMunicipioDto) {
+            @RequestBody CreateMunicipioDto createMunicipioDto) throws NotFoundException {
 
         var updateList = this.municipioService.updateMunicipio(codigoMunicipio, createMunicipioDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
