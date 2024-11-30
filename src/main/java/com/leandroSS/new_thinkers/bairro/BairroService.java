@@ -3,6 +3,8 @@ package com.leandroSS.new_thinkers.bairro;
 import com.leandroSS.new_thinkers.bairro.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,11 +22,13 @@ public class BairroService {
                 this.municipioRepository = municipioRepository;
         }
 
-        public List<ResponseBairroDto> createBairro(CreateBairroDto createBairroDto) {
+        public List<ResponseBairroDto> createBairro(CreateBairroDto createBairroDto) throws NotFoundException {
 
-                var municipio = this.municipioRepository.findById(createBairroDto.codigoMunicipio())
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Municipio não exixste"));
+                var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
+
+                if (municipio == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 var newBairro = new BairroEntity();
                 newBairro.setStatus(createBairroDto.status());
@@ -99,11 +103,13 @@ public class BairroService {
                                 null);
         }
 
-        public List<ResponseBairroDto> bairroByMunicipio(String municipio) {
+        public List<ResponseBairroDto> bairroByMunicipio(String municipio) throws NotFoundException {
                 var id = Integer.valueOf(municipio);
-                var municipioCurrent = this.municipioRepository.findById(id)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "municipio não exixste"));
+                var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
+
+                if (municipioCurrent == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent);
 
@@ -119,16 +125,21 @@ public class BairroService {
 
         }
 
-        public List<ResponseBairroDto> updateBairro(String codigoBairro, CreateBairroDto createBairroDto) {
+        public List<ResponseBairroDto> updateBairro(String codigoBairro, CreateBairroDto createBairroDto)
+                        throws NotFoundException {
 
                 var id = Integer.valueOf(codigoBairro);
-                var bairroCurrent = this.bairroRepository.findById(id)
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Bairro não exixste"));
+                var bairroCurrent = this.bairroRepository.findByCodigoBairro(id);
 
-                var municipio = this.municipioRepository.findById(createBairroDto.codigoMunicipio())
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "Municipio não exixste"));
+                if (bairroCurrent == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
+
+                var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
+
+                if (municipio == null) {
+                        throw new NotFoundException("Estado não encontrado");
+                }
 
                 if (createBairroDto.nome() != null) {
                         bairroCurrent.setNome(createBairroDto.nome());
