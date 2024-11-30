@@ -12,6 +12,8 @@ import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
 import com.leandroSS.new_thinkers.bairro.BairroRepository;
 import com.leandroSS.new_thinkers.pessoa.repository.EnderecoRepository;
 import com.leandroSS.new_thinkers.pessoa.repository.PessoaRepository;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,16 +38,18 @@ public class PessoaService {
                 this.bairroRepository = bairroRepository;
         }
 
-        public ResponsePessoaDto createPessoa(CreatePessoaDto createPessoaDto) {
+        public ResponsePessoaDto createPessoa(CreatePessoaDto createPessoaDto) throws NotFoundException {
 
                 List<EnderecoEntity> enderecos = new ArrayList<>();
 
                 for (CreateEnderecoDto id : createPessoaDto.endereco()) {
                         var codigoBairro = id.codigoBairro();
 
-                        var bairro = this.bairroRepository.findById(codigoBairro)
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                        "bairro não exixste"));
+                        var bairro = this.bairroRepository.findByCodigoBairro(codigoBairro);
+
+                        if (bairro == null) {
+                                throw new NotFoundException("Bairro não encontrado");
+                        }
 
                         var newEndereco = new EnderecoEntity();
                         newEndereco.setBairro(bairro);
@@ -220,11 +224,13 @@ public class PessoaService {
         }
 
         public ResponsePessoaDto uptatePessoa(@PathVariable String codigoPessoa,
-                        @RequestBody CreatePessoaDto createPessoaDto) {
+                        @RequestBody CreatePessoaDto createPessoaDto) throws NotFoundException {
 
-                var pessoa = this.pessoaRepository.findById(Integer.valueOf(codigoPessoa))
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                "pessoa não exixste"));
+                var pessoa = this.pessoaRepository.findByCodigoPessoa(Integer.valueOf(codigoPessoa));
+
+                if (pessoa == null) {
+                        throw new NotFoundException("Pessoa não encontrado");
+                }
 
                 if (createPessoaDto.nome() != null) {
                         pessoa.setNome(createPessoaDto.nome());
@@ -259,9 +265,11 @@ public class PessoaService {
 
                 for (CreateEnderecoDto endereco : createPessoaDto.endereco()) {
 
-                        var bairro = this.bairroRepository.findById(endereco.codigoBairro())
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),
-                                                        "bairro não exixste"));
+                        var bairro = this.bairroRepository.findByCodigoBairro(endereco.codigoBairro());
+
+                        if (bairro == null) {
+                                throw new NotFoundException("Bairro não encontrado");
+                        }
 
                         var newEndereco = new EnderecoEntity();
                         newEndereco.setNomeRua(endereco.nomeRua());

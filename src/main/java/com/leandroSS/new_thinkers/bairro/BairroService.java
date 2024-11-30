@@ -5,9 +5,7 @@ import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
 import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
 
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class BairroService {
                 var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
 
                 if (municipio == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                        throw new NotFoundException("Municipio não encontrado");
                 }
 
                 var newBairro = new BairroEntity();
@@ -108,7 +106,7 @@ public class BairroService {
                 var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
 
                 if (municipioCurrent == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                        throw new NotFoundException("Municipio não encontrado");
                 }
 
                 var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent);
@@ -132,13 +130,13 @@ public class BairroService {
                 var bairroCurrent = this.bairroRepository.findByCodigoBairro(id);
 
                 if (bairroCurrent == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                        throw new NotFoundException("Bairro não encontrado");
                 }
 
                 var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
 
                 if (municipio == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                        throw new NotFoundException("Municipio não encontrado");
                 }
 
                 if (createBairroDto.nome() != null) {

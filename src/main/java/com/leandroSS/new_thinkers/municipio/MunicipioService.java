@@ -4,9 +4,7 @@ import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.UF.UfRepository;
 import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

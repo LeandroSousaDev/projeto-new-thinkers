@@ -2,10 +2,11 @@ package com.leandroSS.new_thinkers.pessoa;
 
 import com.leandroSS.new_thinkers.pessoa.dto.pessoa.CreatePessoaDto;
 import com.leandroSS.new_thinkers.pessoa.dto.pessoa.ResponsePessoaDto;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,14 +20,15 @@ public class PessoaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ResponsePessoaDto> create(@RequestBody CreatePessoaDto createPessoaDto) {
+    public ResponseEntity<ResponsePessoaDto> create(@RequestBody CreatePessoaDto createPessoaDto)
+            throws NotFoundException {
 
         var newPessoa = this.pessoaService.createPessoa(createPessoaDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newPessoa);
     }
 
     @GetMapping("/")
-    private ResponseEntity getPessoa(
+    public ResponseEntity getPessoa(
             @RequestParam(required = false) Integer codigoPessoa,
             @RequestParam(required = false) String login,
             @RequestParam(required = false) Integer status) {
@@ -54,7 +56,7 @@ public class PessoaController {
 
     @PutMapping("/{codigoPessoa}")
     public ResponseEntity<ResponsePessoaDto> update(@PathVariable("codigoPessoa") String codigoPessoa,
-            @RequestBody CreatePessoaDto createPessoaDto) {
+            @RequestBody CreatePessoaDto createPessoaDto) throws NotFoundException {
         var updatePessoa = this.pessoaService.uptatePessoa(codigoPessoa, createPessoaDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updatePessoa);
     }

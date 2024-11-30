@@ -2,6 +2,8 @@ package com.leandroSS.new_thinkers.UF;
 
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
+import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +63,8 @@ public class UfController {
     }
 
     @PutMapping("/{codigo_uf}")
-    public ResponseEntity<List<ResponseUfDto>> Update(@PathVariable("codigo_uf") String codigoUf, @RequestBody UfEntity uf) {
+    public ResponseEntity<List<ResponseUfDto>> Update(@PathVariable("codigo_uf") String codigoUf,
+            @RequestBody UfEntity uf) throws NotFoundException {
 
         var updateList = this.ufService.updateUF(codigoUf, uf);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
