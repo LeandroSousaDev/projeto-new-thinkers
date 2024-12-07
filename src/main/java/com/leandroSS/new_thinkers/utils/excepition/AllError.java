@@ -10,9 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class AllError extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(CustomException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    private ResponseEntity<ErroResponse> NotFoundErroHandler(NotFoundException exception) {
+    private ResponseEntity<ErroResponse> NotFoundErroHandler(CustomException exception) {
         ErroResponse threartResponse = new ErroResponse(404, exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threartResponse);
     }

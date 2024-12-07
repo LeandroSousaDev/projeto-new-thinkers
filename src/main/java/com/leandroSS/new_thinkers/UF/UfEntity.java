@@ -15,7 +15,7 @@ public class UfEntity {
     @Id
     @Column(name = "CODIGO_UF")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer codigoUf;
+    private Integer codigoUF;
 
     @Column(name = "SIGLA")
     private String sigla;
@@ -26,14 +26,14 @@ public class UfEntity {
     @Column(name = "STATUS")
     private Integer status;
 
-    @OneToMany(mappedBy = "uf")
+    @OneToMany(mappedBy = "UF")
     private List<MunicipioEntity> municipios = new ArrayList<>();
 
     public UfEntity() {
     }
 
-    public UfEntity(Integer codigoUf, String sigla, String nome, Integer status) {
-        this.codigoUf = codigoUf;
+    public UfEntity(Integer codigoUF, String sigla, String nome, Integer status) {
+        this.codigoUF = codigoUF;
         this.sigla = sigla;
         this.nome = nome;
         this.status = status;

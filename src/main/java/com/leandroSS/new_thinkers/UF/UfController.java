@@ -2,7 +2,8 @@ package com.leandroSS.new_thinkers.UF;
 
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
-import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
+import com.leandroSS.new_thinkers.utils.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/uf")
+@RequestMapping("/UF")
 public class UfController {
     private final UfService ufService;
 
@@ -20,7 +21,7 @@ public class UfController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<List<ResponseUfDto>> create(@RequestBody CreateUfDto createUfDto) {
+    public ResponseEntity<List<ResponseUfDto>> create(@RequestBody CreateUfDto createUfDto) throws CustomException {
 
         var newUf = ufService.createUf(createUfDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newUf);
@@ -30,44 +31,50 @@ public class UfController {
     private ResponseEntity getUf(
             @RequestParam(required = false) String sigla,
             @RequestParam(required = false) String nome,
-            @RequestParam(required = false) Integer codigoUf,
+            @RequestParam(required = false) Integer codigoUF,
             @RequestParam(required = false) Integer status) {
 
-        ResponseUfDto UF;
         List<ResponseUfDto> UFs;
 
         if (sigla != null) {
-
-            UF = this.ufService.ufBySigla(sigla);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UF);
+            UFs = this.ufService.ufBySigla(sigla);
+            if (UFs.isEmpty()) {
+                return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
+            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs.get(0));
 
         } else if (nome != null) {
+            UFs = this.ufService.ufByNome(nome);
+            if (UFs.isEmpty()) {
+                return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
+            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs.get(0));
 
-            UF = this.ufService.ufByNome(nome);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UF);
+        } else if (codigoUF != null) {
 
-        } else if (codigoUf != null) {
-
-            UF = this.ufService.ufById(codigoUf);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UF);
+            UFs = this.ufService.ufById(codigoUF);
+            if (UFs.isEmpty()) {
+                return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
+            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs.get(0));
 
         } else if (status != null) {
 
             UFs = this.ufService.ufByStatus(status);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
         } else {
+
             UFs = this.ufService.listAllUF();
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(UFs);
         }
 
     }
 
-    @PutMapping("/{codigo_uf}")
-    public ResponseEntity<List<ResponseUfDto>> Update(@PathVariable("codigo_uf") String codigoUf,
-            @RequestBody UfEntity uf) throws NotFoundException {
+    @PutMapping("/")
+    public ResponseEntity<List<ResponseUfDto>> Update(@RequestBody UpdateUfDto updateUfDto) throws CustomException {
 
-        var updateList = this.ufService.updateUF(codigoUf, uf);
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
+        var updatedList = this.ufService.updateUF(updateUfDto);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updatedList);
     }
 
 }
