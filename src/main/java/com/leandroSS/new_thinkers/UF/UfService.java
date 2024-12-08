@@ -111,9 +111,6 @@ public class UfService {
 
         public List<ResponseUfDto> updateUF(UpdateUfDto updateUfDto) throws CustomException {
 
-                var id = updateUfDto.codigoUf();
-                var ufCurrent = this.ufRepository.findByCodigoUF(id);
-
                 var updatedUf = UfValidation.updateValidation(updateUfDto, ufRepository);
 
                 if (updateUfDto.nome() != null) {
