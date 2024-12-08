@@ -4,13 +4,47 @@ import com.leandroSS.new_thinkers.UF.UfEntity;
 import com.leandroSS.new_thinkers.UF.UfRepository;
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
+import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
+import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
+import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
+import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
 import com.leandroSS.new_thinkers.utils.excepition.CustomException;
 
 public class MunicipioValidation {
 
-    public static void createValidation(CreateUfDto dto, UfRepository repository) throws CustomException {
-        if (dto.sigla().isBlank()) {
-            throw new CustomException("O campo sigla é obigatorio");
+    public static void createValidation(CreateMunicipioDto dto, MunicipioRepository repository) throws CustomException {
+
+        if (dto.nome().isBlank()) {
+            throw new CustomException("O campo nome é obigatorio");
+        }
+
+        if (dto.status() == null) {
+            throw new CustomException("O campo status é obigatorio");
+        }
+
+        if (dto.status() <= 0 || dto.status() > 2) {
+            throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
+        }
+
+        var MunicipioNome = repository.findByNome(dto.nome());
+
+        if (!MunicipioNome.isEmpty()) {
+            throw new CustomException("Esse Municipio ja esta salvo");
+        }
+
+    }
+
+    public static MunicipioEntity updateValidation(UpdateMunicipioDto dto, MunicipioRepository repository) throws CustomException {
+
+        if (dto.codigoMunicipio() == null) {
+            throw new CustomException("O campo codigo Municipio é obigatorio");
+        }
+
+        var id = dto.codigoMunicipio();
+        var municipioCurrent = repository.findByCodigoMunicipio(id);
+
+        if (municipioCurrent == null) {
+            throw new CustomException("Municipio não encontrado");
         }
 
         if (dto.nome().isBlank()) {
@@ -25,34 +59,7 @@ public class MunicipioValidation {
             throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
         }
 
-        var ufSigla = repository.findBySigla(dto.sigla());
-
-        var ufNome = repository.findByNome(dto.nome());
-
-        if (!ufSigla.isEmpty() || !ufNome.isEmpty()) {
-            throw new CustomException("Esse Estado ja esta salvo");
-        }
-
-    }
-
-    public static UfEntity updateValidation(UpdateUfDto dto, UfRepository repository) throws CustomException {
-
-        var id = dto.codigoUf();
-        var ufCurrent = repository.findByCodigoUF(id);
-
-        if (ufCurrent == null) {
-            throw new CustomException("Estado não encontrado");
-        }
-
-        var ufSigla = repository.findBySigla(dto.sigla());
-
-        var ufNome = repository.findByNome(dto.nome());
-
-        if (!ufSigla.isEmpty() || !ufNome.isEmpty()) {
-            throw new CustomException("Esse Estado ja esta salvo");
-        }
-
-        return ufCurrent.get(0);
+        return municipioCurrent.get(0);
 
     }
 

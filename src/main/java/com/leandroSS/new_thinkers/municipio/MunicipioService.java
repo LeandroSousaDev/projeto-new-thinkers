@@ -3,7 +3,9 @@ package com.leandroSS.new_thinkers.municipio;
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.UF.UfRepository;
-import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
+import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.utils.validation.MunicipioValidation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,18 +22,20 @@ public class MunicipioService {
         }
 
         public List<ResponseMunicipioDto> createMunicipio(CreateMunicipioDto createMunicipioDto)
-                        throws NotFoundException {
+                        throws CustomException {
 
-                var uf = this.ufRepository.findByCodigoUf(createMunicipioDto.codigoUf());
+                MunicipioValidation.createValidation(createMunicipioDto, municipioRepository);
 
-                if (uf == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                var uf = this.ufRepository.findByCodigoUF(createMunicipioDto.codigoUF());
+
+                if (uf.isEmpty()) {
+                        throw new CustomException("Estado não encontrado");
                 }
 
                 var newMunicipio = new MunicipioEntity();
                 newMunicipio.setStatus(createMunicipioDto.status());
                 newMunicipio.setNome(createMunicipioDto.nome());
-                newMunicipio.setUf(uf);
+                newMunicipio.setUF(uf.get(0));
 
                 this.municipioRepository.save(newMunicipio);
 
@@ -41,7 +45,7 @@ public class MunicipioService {
                                 .stream()
                                 .map(municipios -> new ResponseMunicipioDto(
                                                 municipios.getCodigoMunicipio(),
-                                                municipios.getUf().getCodigoUf(),
+                                                municipios.getUF().getCodigoUF(),
                                                 municipios.getNome(),
                                                 municipios.getStatus(),
                                                 null))
@@ -56,7 +60,7 @@ public class MunicipioService {
                                 .stream()
                                 .map(municipio -> new ResponseMunicipioDto(
                                                 municipio.getCodigoMunicipio(),
-                                                municipio.getUf().getCodigoUf(),
+                                                municipio.getUF().getCodigoUF(),
                                                 municipio.getNome(),
                                                 municipio.getStatus(),
                                                 null))
@@ -70,7 +74,7 @@ public class MunicipioService {
                                 .stream()
                                 .map(municipio -> new ResponseMunicipioDto(
                                                 municipio.getCodigoMunicipio(),
-                                                municipio.getUf().getCodigoUf(),
+                                                municipio.getUF().getCodigoUF(),
                                                 municipio.getNome(),
                                                 municipio.getStatus(),
                                                 null))
@@ -84,39 +88,42 @@ public class MunicipioService {
                                 .stream()
                                 .map(municipio -> new ResponseMunicipioDto(
                                                 municipio.getCodigoMunicipio(),
-                                                municipio.getUf().getCodigoUf(),
+                                                municipio.getUF().getCodigoUF(),
                                                 municipio.getNome(),
                                                 municipio.getStatus(),
                                                 null))
                                 .toList();
         }
 
-        public ResponseMunicipioDto municipioById(Integer codigoMunicipio) {
+        public List<ResponseMunicipioDto> municipioById(Integer codigoMunicipio) {
                 var listMunicipio = this.municipioRepository.findByCodigoMunicipio(codigoMunicipio);
 
-                return new ResponseMunicipioDto(
-                                listMunicipio.getCodigoMunicipio(),
-                                listMunicipio.getUf().getCodigoUf(),
-                                listMunicipio.getNome(),
-                                listMunicipio.getStatus(),
-                                null);
+                return listMunicipio
+                        .stream()
+                        .map(municipio -> new ResponseMunicipioDto(
+                                municipio.getCodigoMunicipio(),
+                                municipio.getUF().getCodigoUF(),
+                                municipio.getNome(),
+                                municipio.getStatus(),
+                                null))
+                        .toList();
         }
 
-        public List<ResponseMunicipioDto> municipuioByUF(String uf) throws NotFoundException {
+        public List<ResponseMunicipioDto> municipuioByUF(String uf) throws CustomException {
                 var id = Integer.valueOf(uf);
-                var ufCurrent = this.ufRepository.findByCodigoUf(id);
+                var ufCurrent = this.ufRepository.findByCodigoUF(id);
 
-                if (ufCurrent == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                if (ufCurrent.isEmpty()) {
+                    throw new CustomException("Estado não encontrado");
                 }
 
-                var listMunicipio = this.municipioRepository.findByUf(ufCurrent);
+                var listMunicipio = this.municipioRepository.findByUF(ufCurrent.get(0));
 
                 return listMunicipio
                                 .stream()
                                 .map(municipio -> new ResponseMunicipioDto(
                                                 municipio.getCodigoMunicipio(),
-                                                municipio.getUf().getCodigoUf(),
+                                                municipio.getUF().getCodigoUF(),
                                                 municipio.getNome(),
                                                 municipio.getStatus(),
                                                 null))
@@ -124,35 +131,29 @@ public class MunicipioService {
 
         }
 
-        public List<ResponseMunicipioDto> updateMunicipio(String codigoMunicipio,
-                        CreateMunicipioDto createMunicipioDto) throws NotFoundException {
+        public List<ResponseMunicipioDto> updateMunicipio(UpdateMunicipioDto updateMunicipioDto) throws CustomException {
 
-                var id = Integer.valueOf(codigoMunicipio);
-                var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
+               var updatedMunicipio = MunicipioValidation.updateValidation(updateMunicipioDto, municipioRepository);
 
-                if (municipioCurrent == null) {
-                        throw new NotFoundException("Municipio não encontrado");
+                var uf = this.ufRepository.findByCodigoUF(updateMunicipioDto.codigoUF());
+
+                if (uf.isEmpty()) {
+                        throw new CustomException("Estado não encontrado");
                 }
 
-                var uf = this.ufRepository.findByCodigoUf(createMunicipioDto.codigoUf());
-
-                if (uf == null) {
-                        throw new NotFoundException("Estado não encontrado");
+                if (updateMunicipioDto.nome() != null) {
+                        updatedMunicipio.setNome(updateMunicipioDto.nome());
                 }
 
-                if (createMunicipioDto.nome() != null) {
-                        municipioCurrent.setNome(createMunicipioDto.nome());
+                if (updateMunicipioDto.status() != null) {
+                        updatedMunicipio.setStatus(updateMunicipioDto.status());
                 }
 
-                if (createMunicipioDto.status() != null) {
-                        municipioCurrent.setStatus(createMunicipioDto.status());
+                if (updateMunicipioDto.codigoUF() != null) {
+                        updatedMunicipio.setUF(uf.get(0));
                 }
 
-                if (createMunicipioDto.codigoUf() != null) {
-                        municipioCurrent.setUf(uf);
-                }
-
-                this.municipioRepository.save(municipioCurrent);
+                this.municipioRepository.save(updatedMunicipio);
 
                 var allMunicipios = this.municipioRepository.findAll();
 
@@ -160,7 +161,7 @@ public class MunicipioService {
                                 .stream()
                                 .map(municipios -> new ResponseMunicipioDto(
                                                 municipios.getCodigoMunicipio(),
-                                                municipios.getUf().getCodigoUf(),
+                                                municipios.getUF().getCodigoUF(),
                                                 municipios.getNome(),
                                                 municipios.getStatus(),
                                                 null))

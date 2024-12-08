@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MunicipioRepository extends JpaRepository<MunicipioEntity, Integer> {
 
-    List<MunicipioEntity> findByUf(UfEntity uf);
+    List<MunicipioEntity> findByUF(UfEntity UF);
 
     List<MunicipioEntity> findByNome(String nome);
 
     List<MunicipioEntity> findByStatus(Integer status);
 
-    MunicipioEntity findByCodigoMunicipio(Integer codigoMuniciopio);
+    List<MunicipioEntity> findByCodigoMunicipio(Integer codigoMuniciopio);
 
 }

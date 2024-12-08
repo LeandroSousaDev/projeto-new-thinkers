@@ -2,7 +2,8 @@ package com.leandroSS.new_thinkers.municipio;
 
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
-import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
+import com.leandroSS.new_thinkers.utils.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class MunicipioController {
 
     @PostMapping("/")
     public ResponseEntity<List<ResponseMunicipioDto>> create(@RequestBody CreateMunicipioDto createMunicipioDto)
-            throws NotFoundException {
+            throws CustomException {
 
         var newMunicipio = municipioService.createMunicipio(createMunicipioDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newMunicipio);
@@ -32,9 +33,8 @@ public class MunicipioController {
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoMunicipio,
-            @RequestParam(required = false) String uf) throws NotFoundException {
+            @RequestParam(required = false) String UF) throws CustomException {
 
-        ResponseMunicipioDto municipio;
         List<ResponseMunicipioDto> municipios;
 
         if (nome != null) {
@@ -46,11 +46,14 @@ public class MunicipioController {
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
 
         } else if (codigoMunicipio != null) {
-            municipio = this.municipioService.municipioById(codigoMunicipio);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipio);
+            municipios = this.municipioService.municipioById(codigoMunicipio);
+            if (municipios.isEmpty()) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
+            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios.get(0));
 
-        } else if (uf != null) {
-            municipios = this.municipioService.municipuioByUF(uf);
+        } else if (UF != null) {
+            municipios = this.municipioService.municipuioByUF(UF);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
 
         } else {
@@ -60,11 +63,10 @@ public class MunicipioController {
 
     }
 
-    @PutMapping("/{codigoMunicipio}")
-    public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@PathVariable("codigoMunicipio") String codigoMunicipio,
-            @RequestBody CreateMunicipioDto createMunicipioDto) throws NotFoundException {
+    @PutMapping("/")
+    public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@RequestBody UpdateMunicipioDto updateMunicipioDto) throws CustomException {
 
-        var updateList = this.municipioService.updateMunicipio(codigoMunicipio, createMunicipioDto);
+        var updateList = this.municipioService.updateMunicipio(updateMunicipioDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);
 
     }

@@ -25,8 +25,8 @@ public class MunicipioEntity {
     private Integer status;
 
     @ManyToOne
-    @JoinColumn(name = "codigoUf")
-    private UfEntity uf;
+    @JoinColumn(name = "codigoUF")
+    private UfEntity UF;
 
     @OneToMany(mappedBy = "municipio")
     private List<BairroEntity> bairros = new ArrayList<>();
@@ -34,10 +34,10 @@ public class MunicipioEntity {
     public MunicipioEntity() {
     }
 
-    public MunicipioEntity(Integer codigoMunicipio, String nome, Integer status, UfEntity uf) {
+    public MunicipioEntity(Integer codigoMunicipio, String nome, Integer status, UfEntity UF) {
         this.codigoMunicipio = codigoMunicipio;
         this.nome = nome;
         this.status = status;
-        this.uf = uf;
+        this.UF = UF;
     }
 }
