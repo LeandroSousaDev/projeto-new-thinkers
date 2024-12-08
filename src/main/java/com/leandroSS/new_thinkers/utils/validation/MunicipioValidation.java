@@ -6,7 +6,7 @@ import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
 import com.leandroSS.new_thinkers.utils.excepition.CustomException;
 
-public class UfValidation {
+public class MunicipioValidation {
 
     public static void createValidation(CreateUfDto dto, UfRepository repository) throws CustomException {
         if (dto.sigla().isBlank()) {
@@ -44,20 +44,12 @@ public class UfValidation {
             throw new CustomException("Estado não encontrado");
         }
 
-        if (dto.sigla().isBlank()) {
-            throw new CustomException("O campo sigla é obigatorio");
-        }
+        var ufSigla = repository.findBySigla(dto.sigla());
 
-        if (dto.nome().isBlank()) {
-            throw new CustomException("O campo nome é obigatorio");
-        }
+        var ufNome = repository.findByNome(dto.nome());
 
-        if (dto.status() == null) {
-            throw new CustomException("O campo status é obigatorio");
-        }
-
-        if (dto.status() <= 0 || dto.status() > 2) {
-            throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
+        if (!ufSigla.isEmpty() || !ufNome.isEmpty()) {
+            throw new CustomException("Esse Estado ja esta salvo");
         }
 
         return ufCurrent.get(0);

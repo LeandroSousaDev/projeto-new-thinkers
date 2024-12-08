@@ -20,15 +20,7 @@ public class UfService {
 
         public List<ResponseUfDto> createUf(CreateUfDto createUfDto) throws CustomException {
 
-                var ufSigla = this.ufRepository.findBySigla(createUfDto.sigla());
-
-                var ufNome = this.ufRepository.findBySigla(createUfDto.nome());
-
-                if (!ufSigla.isEmpty() || !ufNome.isEmpty()) {
-                        throw new CustomException("Esse Estado ja esta salvo");
-                }
-
-                UfValidation.validarNull(createUfDto);
+                UfValidation.createValidation(createUfDto, ufRepository);
 
                 var newUf = new UfEntity();
                 newUf.setSigla(createUfDto.sigla());
@@ -119,22 +111,10 @@ public class UfService {
 
         public List<ResponseUfDto> updateUF(UpdateUfDto updateUfDto) throws CustomException {
 
-                var id = Integer.valueOf(updateUfDto.codigoUf());
+                var id = updateUfDto.codigoUf();
                 var ufCurrent = this.ufRepository.findByCodigoUF(id);
 
-                if (ufCurrent == null) {
-                        throw new CustomException("Estado não encontrado");
-                }
-
-                var updatedUf = ufCurrent.get(0);
-
-                var ufSigla = this.ufRepository.findBySigla(updateUfDto.sigla());
-
-                var ufNome = this.ufRepository.findBySigla(updateUfDto.nome());
-
-                if (!ufSigla.isEmpty() || !ufNome.isEmpty()) {
-                        throw new CustomException("Esse Estado ja esta salvo");
-                }
+                var updatedUf = UfValidation.updateValidation(updateUfDto, ufRepository);
 
                 if (updateUfDto.nome() != null) {
                         updatedUf.setNome(updateUfDto.nome());
