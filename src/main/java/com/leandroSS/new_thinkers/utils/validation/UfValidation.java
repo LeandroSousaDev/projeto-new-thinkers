@@ -37,7 +37,11 @@ public class UfValidation {
 
     public static UfEntity updateValidation(UpdateUfDto dto, UfRepository repository) throws CustomException {
 
-        var id = dto.codigoUf();
+        if (dto.codigoUF() == null) {
+            throw new CustomException("O campo codigoUF é obigatorio");
+        }
+
+        var id = dto.codigoUF();
         var ufCurrent = repository.findByCodigoUF(id);
 
         if (ufCurrent == null) {
