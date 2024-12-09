@@ -1,9 +1,5 @@
 package com.leandroSS.new_thinkers.utils.validation;
 
-import com.leandroSS.new_thinkers.UF.UfEntity;
-import com.leandroSS.new_thinkers.UF.UfRepository;
-import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
-import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
 import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
 import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
@@ -14,7 +10,12 @@ public class MunicipioValidation {
 
     public static void createValidation(CreateMunicipioDto dto, MunicipioRepository repository) throws CustomException {
 
-        if (dto.nome().isBlank()) {
+        if (dto.codigoUF() == null) {
+            throw new CustomException("O campo codigo UF é obigatorio");
+
+        }
+
+        if (dto.nome() == null || dto.nome().isBlank()) {
             throw new CustomException("O campo nome é obigatorio");
         }
 
@@ -34,7 +35,12 @@ public class MunicipioValidation {
 
     }
 
-    public static MunicipioEntity updateValidation(UpdateMunicipioDto dto, MunicipioRepository repository) throws CustomException {
+    public static MunicipioEntity updateValidation(UpdateMunicipioDto dto, MunicipioRepository repository)
+            throws CustomException {
+
+        if (dto.codigoUF() == null) {
+            throw new CustomException("O campo codigo UF é obigatorio");
+        }
 
         if (dto.codigoMunicipio() == null) {
             throw new CustomException("O campo codigo Municipio é obigatorio");
@@ -47,7 +53,7 @@ public class MunicipioValidation {
             throw new CustomException("Municipio não encontrado");
         }
 
-        if (dto.nome().isBlank()) {
+        if (dto.nome() == null || dto.nome().isBlank()) {
             throw new CustomException("O campo nome é obigatorio");
         }
 
@@ -62,6 +68,5 @@ public class MunicipioValidation {
         return municipioCurrent.get(0);
 
     }
-
 
 }
