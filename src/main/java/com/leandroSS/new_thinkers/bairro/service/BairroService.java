@@ -1,11 +1,13 @@
-package com.leandroSS.new_thinkers.bairro;
+package com.leandroSS.new_thinkers.bairro.service;
 
 import com.leandroSS.new_thinkers.bairro.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.UpdateBairroDto;
-import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
-import com.leandroSS.new_thinkers.utils.validation.BairroValidation;
+import com.leandroSS.new_thinkers.bairro.entity.BairroEntity;
+import com.leandroSS.new_thinkers.bairro.repository.BairroRepository;
+import com.leandroSS.new_thinkers.municipio.repository.MunicipioRepository;
+import com.leandroSS.new_thinkers.excepition.CustomException;
+import com.leandroSS.new_thinkers.bairro.validation.BairroValidation;
 
 import org.springframework.stereotype.Service;
 

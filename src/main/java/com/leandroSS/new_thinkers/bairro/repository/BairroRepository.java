@@ -1,6 +1,7 @@
-package com.leandroSS.new_thinkers.bairro;
+package com.leandroSS.new_thinkers.bairro.repository;
 
-import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
+import com.leandroSS.new_thinkers.bairro.entity.BairroEntity;
+import com.leandroSS.new_thinkers.municipio.entity.MunicipioEntity;
 
 import java.util.List;
 

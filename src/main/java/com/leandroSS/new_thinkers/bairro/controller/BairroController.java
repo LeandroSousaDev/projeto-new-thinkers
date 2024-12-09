@@ -1,9 +1,10 @@
-package com.leandroSS.new_thinkers.bairro;
+package com.leandroSS.new_thinkers.bairro.controller;
 
+import com.leandroSS.new_thinkers.bairro.service.BairroService;
 import com.leandroSS.new_thinkers.bairro.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.UpdateBairroDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

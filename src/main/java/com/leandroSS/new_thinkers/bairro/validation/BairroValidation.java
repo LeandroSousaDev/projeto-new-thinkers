@@ -1,10 +1,10 @@
-package com.leandroSS.new_thinkers.utils.validation;
+package com.leandroSS.new_thinkers.bairro.validation;
 
-import com.leandroSS.new_thinkers.bairro.BairroEntity;
-import com.leandroSS.new_thinkers.bairro.BairroRepository;
+import com.leandroSS.new_thinkers.bairro.entity.BairroEntity;
+import com.leandroSS.new_thinkers.bairro.repository.BairroRepository;
 import com.leandroSS.new_thinkers.bairro.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.UpdateBairroDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 public class BairroValidation {
 
