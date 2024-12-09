@@ -1,6 +1,6 @@
-package com.leandroSS.new_thinkers.UF;
+package com.leandroSS.new_thinkers.UF.Entity;
 
-import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
+import com.leandroSS.new_thinkers.municipio.entity.MunicipioEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

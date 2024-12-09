@@ -1,9 +1,10 @@
-package com.leandroSS.new_thinkers.UF;
+package com.leandroSS.new_thinkers.UF.controller;
 
+import com.leandroSS.new_thinkers.UF.service.UfService;
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
 import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

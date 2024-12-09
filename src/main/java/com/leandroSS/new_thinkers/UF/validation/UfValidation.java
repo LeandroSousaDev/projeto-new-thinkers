@@ -1,10 +1,10 @@
-package com.leandroSS.new_thinkers.utils.validation;
+package com.leandroSS.new_thinkers.UF.validation;
 
-import com.leandroSS.new_thinkers.UF.UfEntity;
-import com.leandroSS.new_thinkers.UF.UfRepository;
+import com.leandroSS.new_thinkers.UF.Entity.UfEntity;
+import com.leandroSS.new_thinkers.UF.repository.UfRepository;
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 public class UfValidation {
 

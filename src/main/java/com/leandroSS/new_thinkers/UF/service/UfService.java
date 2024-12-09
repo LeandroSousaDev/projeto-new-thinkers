@@ -1,11 +1,13 @@
-package com.leandroSS.new_thinkers.UF;
+package com.leandroSS.new_thinkers.UF.service;
 
+import com.leandroSS.new_thinkers.UF.Entity.UfEntity;
 import com.leandroSS.new_thinkers.UF.dto.CreateUfDto;
 import com.leandroSS.new_thinkers.UF.dto.ResponseUfDto;
 import com.leandroSS.new_thinkers.UF.dto.UpdateUfDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.UF.repository.UfRepository;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
-import com.leandroSS.new_thinkers.utils.validation.UfValidation;
+import com.leandroSS.new_thinkers.UF.validation.UfValidation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
