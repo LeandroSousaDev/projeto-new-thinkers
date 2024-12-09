@@ -1,9 +1,10 @@
-package com.leandroSS.new_thinkers.municipio;
+package com.leandroSS.new_thinkers.municipio.controller;
 
+import com.leandroSS.new_thinkers.municipio.service.MunicipioService;
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

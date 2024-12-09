@@ -1,11 +1,13 @@
-package com.leandroSS.new_thinkers.municipio;
+package com.leandroSS.new_thinkers.municipio.service;
 
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.ResponseMunicipioDto;
-import com.leandroSS.new_thinkers.UF.UfRepository;
+import com.leandroSS.new_thinkers.UF.repository.UfRepository;
 import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
-import com.leandroSS.new_thinkers.utils.validation.MunicipioValidation;
+import com.leandroSS.new_thinkers.municipio.entity.MunicipioEntity;
+import com.leandroSS.new_thinkers.municipio.repository.MunicipioRepository;
+import com.leandroSS.new_thinkers.excepition.CustomException;
+import com.leandroSS.new_thinkers.municipio.validation.MunicipioValidation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

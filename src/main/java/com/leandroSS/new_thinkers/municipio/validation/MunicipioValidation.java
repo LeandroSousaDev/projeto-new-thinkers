@@ -1,10 +1,10 @@
-package com.leandroSS.new_thinkers.utils.validation;
+package com.leandroSS.new_thinkers.municipio.validation;
 
-import com.leandroSS.new_thinkers.municipio.MunicipioEntity;
-import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
+import com.leandroSS.new_thinkers.municipio.entity.MunicipioEntity;
+import com.leandroSS.new_thinkers.municipio.repository.MunicipioRepository;
 import com.leandroSS.new_thinkers.municipio.dto.CreateMunicipioDto;
 import com.leandroSS.new_thinkers.municipio.dto.UpdateMunicipioDto;
-import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 public class MunicipioValidation {
 

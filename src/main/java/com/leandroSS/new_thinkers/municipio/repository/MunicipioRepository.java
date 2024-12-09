@@ -1,9 +1,10 @@
-package com.leandroSS.new_thinkers.municipio;
+package com.leandroSS.new_thinkers.municipio.repository;
 
-import com.leandroSS.new_thinkers.UF.UfEntity;
+import com.leandroSS.new_thinkers.UF.Entity.UfEntity;
 
 import java.util.List;
 
+import com.leandroSS.new_thinkers.municipio.entity.MunicipioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MunicipioRepository extends JpaRepository<MunicipioEntity, Integer> {
