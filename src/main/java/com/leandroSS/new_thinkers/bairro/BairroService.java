@@ -2,8 +2,10 @@ package com.leandroSS.new_thinkers.bairro;
 
 import com.leandroSS.new_thinkers.bairro.dto.CreateBairroDto;
 import com.leandroSS.new_thinkers.bairro.dto.ResponseBairroDto;
+import com.leandroSS.new_thinkers.bairro.dto.UpdateBairroDto;
 import com.leandroSS.new_thinkers.municipio.MunicipioRepository;
-import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+import com.leandroSS.new_thinkers.utils.excepition.CustomException;
+import com.leandroSS.new_thinkers.utils.validation.BairroValidation;
 
 import org.springframework.stereotype.Service;
 
@@ -20,18 +22,20 @@ public class BairroService {
                 this.municipioRepository = municipioRepository;
         }
 
-        public List<ResponseBairroDto> createBairro(CreateBairroDto createBairroDto) throws NotFoundException {
+        public List<ResponseBairroDto> createBairro(CreateBairroDto createBairroDto) throws CustomException {
+
+                BairroValidation.createValidation(createBairroDto, bairroRepository);
 
                 var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
 
-                if (municipio == null) {
-                        throw new NotFoundException("Municipio não encontrado");
+                if (municipio.isEmpty()) {
+                        throw new CustomException("Municipio não encontrado");
                 }
 
                 var newBairro = new BairroEntity();
                 newBairro.setStatus(createBairroDto.status());
                 newBairro.setNome(createBairroDto.nome());
-                newBairro.setMunicipio(municipio);
+                newBairro.setMunicipio(municipio.get(0));
 
                 this.bairroRepository.save(newBairro);
 
@@ -90,26 +94,29 @@ public class BairroService {
                                 .toList();
         }
 
-        public ResponseBairroDto bairroById(Integer codigoBairro) {
+        public List<ResponseBairroDto> bairroById(Integer codigoBairro) {
                 var listMunicipio = this.bairroRepository.findByCodigoBairro(codigoBairro);
 
-                return new ResponseBairroDto(
-                                listMunicipio.getCodigoBairro(),
-                                listMunicipio.getMunicipio().getCodigoMunicipio(),
-                                listMunicipio.getNome(),
-                                listMunicipio.getStatus(),
-                                null);
+                return listMunicipio
+                                .stream()
+                                .map(bairros -> new ResponseBairroDto(
+                                                bairros.getCodigoBairro(),
+                                                bairros.getMunicipio().getCodigoMunicipio(),
+                                                bairros.getNome(),
+                                                bairros.getStatus(),
+                                                null))
+                                .toList();
         }
 
-        public List<ResponseBairroDto> bairroByMunicipio(String municipio) throws NotFoundException {
+        public List<ResponseBairroDto> bairroByMunicipio(String municipio) throws CustomException {
                 var id = Integer.valueOf(municipio);
                 var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
 
-                if (municipioCurrent == null) {
-                        throw new NotFoundException("Municipio não encontrado");
+                if (municipioCurrent.isEmpty()) {
+                        throw new CustomException("Municipio não encontrado");
                 }
 
-                var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent);
+                var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent.get(0));
 
                 return listBairro
                                 .stream()
@@ -123,32 +130,27 @@ public class BairroService {
 
         }
 
-        public List<ResponseBairroDto> updateBairro(String codigoBairro, CreateBairroDto createBairroDto)
-                        throws NotFoundException {
+        public List<ResponseBairroDto> updateBairro(UpdateBairroDto updateBairroDto)
+                        throws CustomException {
 
-                var id = Integer.valueOf(codigoBairro);
-                var bairroCurrent = this.bairroRepository.findByCodigoBairro(id);
+                var bairroCurrent = BairroValidation.updateValidation(updateBairroDto, bairroRepository);
 
-                if (bairroCurrent == null) {
-                        throw new NotFoundException("Bairro não encontrado");
+                var municipio = this.municipioRepository.findByCodigoMunicipio(updateBairroDto.codigoMunicipio());
+
+                if (municipio.isEmpty()) {
+                        throw new CustomException("Municipio não encontrado");
                 }
 
-                var municipio = this.municipioRepository.findByCodigoMunicipio(createBairroDto.codigoMunicipio());
-
-                if (municipio == null) {
-                        throw new NotFoundException("Municipio não encontrado");
+                if (updateBairroDto.nome() != null) {
+                        bairroCurrent.setNome(updateBairroDto.nome());
                 }
 
-                if (createBairroDto.nome() != null) {
-                        bairroCurrent.setNome(createBairroDto.nome());
+                if (updateBairroDto.status() != null) {
+                        bairroCurrent.setStatus(updateBairroDto.status());
                 }
 
-                if (createBairroDto.status() != null) {
-                        bairroCurrent.setStatus(createBairroDto.status());
-                }
-
-                if (createBairroDto.codigoMunicipio() != null) {
-                        bairroCurrent.setMunicipio(municipio);
+                if (updateBairroDto.codigoMunicipio() != null) {
+                        bairroCurrent.setMunicipio(municipio.get(0));
                 }
 
                 this.bairroRepository.save(bairroCurrent);

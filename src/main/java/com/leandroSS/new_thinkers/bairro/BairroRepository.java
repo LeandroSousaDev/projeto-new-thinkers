@@ -13,6 +13,6 @@ public interface BairroRepository extends JpaRepository<BairroEntity, Integer> {
 
     List<BairroEntity> findByStatus(Integer status);
 
-    BairroEntity findByCodigoBairro(Integer codigoBairro);
+    List<BairroEntity> findByCodigoBairro(Integer codigoBairro);
 
 }
