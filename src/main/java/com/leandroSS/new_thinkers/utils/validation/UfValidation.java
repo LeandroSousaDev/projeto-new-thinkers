@@ -9,7 +9,7 @@ import com.leandroSS.new_thinkers.utils.excepition.CustomException;
 public class UfValidation {
 
     public static void createValidation(CreateUfDto dto, UfRepository repository) throws CustomException {
-        if (dto.sigla().isBlank()) {
+        if (dto.nome() == null || dto.sigla().isBlank()) {
             throw new CustomException("O campo sigla é obigatorio");
         }
 
@@ -52,7 +52,7 @@ public class UfValidation {
             throw new CustomException("O campo sigla é obigatorio");
         }
 
-        if (dto.nome().isBlank()) {
+        if (dto.nome() == null || dto.nome().isBlank()) {
             throw new CustomException("O campo nome é obigatorio");
         }
 
@@ -67,6 +67,5 @@ public class UfValidation {
         return ufCurrent.get(0);
 
     }
-
 
 }
