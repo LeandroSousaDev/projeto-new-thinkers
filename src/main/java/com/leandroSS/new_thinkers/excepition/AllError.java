@@ -1,4 +1,4 @@
-package com.leandroSS.new_thinkers.utils.excepition;
+package com.leandroSS.new_thinkers.excepition;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
