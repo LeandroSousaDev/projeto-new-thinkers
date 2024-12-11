@@ -27,9 +27,9 @@ public class MunicipioValidation {
             throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
         }
 
-        var MunicipioNome = repository.findByNome(dto.nome());
+        var municipioNome = repository.findByNome(dto.nome());
 
-        if (!MunicipioNome.isEmpty()) {
+        if (!municipioNome.isEmpty()) {
             throw new CustomException("Esse Municipio ja esta salvo");
         }
 
