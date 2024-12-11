@@ -11,5 +11,5 @@ public record ResponsePessoaDto(Integer codigoPessoa,
                                 String login,
                                 String senha,
                                 Integer status,
-                                List<ResponseEnderecoDto> endereço) {
+                                List<ResponseEnderecoDto> endereco) {
 }

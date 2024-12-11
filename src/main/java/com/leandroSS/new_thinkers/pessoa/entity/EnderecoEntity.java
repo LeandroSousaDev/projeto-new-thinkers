@@ -1,6 +1,6 @@
 package com.leandroSS.new_thinkers.pessoa.entity;
 
-import com.leandroSS.new_thinkers.bairro.BairroEntity;
+import com.leandroSS.new_thinkers.bairro.entity.BairroEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

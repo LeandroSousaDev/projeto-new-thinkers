@@ -1,8 +1,10 @@
-package com.leandroSS.new_thinkers.pessoa;
+package com.leandroSS.new_thinkers.pessoa.controller;
 
+import com.leandroSS.new_thinkers.pessoa.dto.pessoa.UpdatePessoaDto;
+import com.leandroSS.new_thinkers.pessoa.service.PessoaService;
 import com.leandroSS.new_thinkers.pessoa.dto.pessoa.CreatePessoaDto;
 import com.leandroSS.new_thinkers.pessoa.dto.pessoa.ResponsePessoaDto;
-import com.leandroSS.new_thinkers.utils.excepition.NotFoundException;
+import com.leandroSS.new_thinkers.excepition.CustomException;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,8 @@ public class PessoaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ResponsePessoaDto> create(@RequestBody CreatePessoaDto createPessoaDto)
-            throws NotFoundException {
-
+    public ResponseEntity<List<ResponsePessoaDto>> create(@RequestBody CreatePessoaDto createPessoaDto)
+            throws CustomException {
         var newPessoa = this.pessoaService.createPessoa(createPessoaDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(newPessoa);
     }
@@ -33,12 +34,14 @@ public class PessoaController {
             @RequestParam(required = false) String login,
             @RequestParam(required = false) Integer status) {
 
-        ResponsePessoaDto pessoa;
         List<ResponsePessoaDto> pessoas;
 
         if (codigoPessoa != null) {
-            pessoa = this.pessoaService.pessoaById(codigoPessoa);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(pessoa);
+            pessoas = this.pessoaService.pessoaById(codigoPessoa);
+            if (pessoas.isEmpty()) {
+                return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(pessoas);
+            }
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(pessoas.get(0));
 
         } else if (login != null) {
             pessoas = this.pessoaService.pessoaByLogin(login);
@@ -54,10 +57,10 @@ public class PessoaController {
         }
     }
 
-    @PutMapping("/{codigoPessoa}")
-    public ResponseEntity<ResponsePessoaDto> update(@PathVariable("codigoPessoa") String codigoPessoa,
-            @RequestBody CreatePessoaDto createPessoaDto) throws NotFoundException {
-        var updatePessoa = this.pessoaService.uptatePessoa(codigoPessoa, createPessoaDto);
+    @PutMapping("/")
+    public ResponseEntity<List<ResponsePessoaDto>> update(@RequestBody UpdatePessoaDto updatePessoaDto)
+            throws CustomException {
+        var updatePessoa = this.pessoaService.uptatePessoa(updatePessoaDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updatePessoa);
     }
 
