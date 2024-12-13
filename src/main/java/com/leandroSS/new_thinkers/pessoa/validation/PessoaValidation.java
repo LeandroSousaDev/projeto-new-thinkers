@@ -47,6 +47,10 @@ public class PessoaValidation {
             throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
         }
 
+        if (dto.endereco().isEmpty()) {
+            throw new CustomException("Voce deve adicionar pelo menos um endereço para a pessoa");
+        }
+
         for (CreateEnderecoDto endereco : dto.endereco()) {
 
             if (endereco.nomeRua() == null || endereco.nomeRua().isBlank()) {
@@ -82,6 +86,10 @@ public class PessoaValidation {
             BairroRepository repository2)
             throws CustomException {
 
+        if (dto.codigoPessoa() == null) {
+            throw new CustomException("O campo codigo pessoa é obigatorio");
+        }
+
         if (dto.nome() == null || dto.nome().isBlank()) {
             throw new CustomException("O campo nome é obigatorio");
         }
@@ -110,8 +118,8 @@ public class PessoaValidation {
             throw new CustomException("valor do campo status é invalido: use 1 para ativo e 2 para inativo");
         }
 
-        if (dto.codigoPessoa() == null) {
-            throw new CustomException("O campo codigo pessoa é obigatorio");
+        if (dto.endereco().isEmpty()) {
+            throw new CustomException("Voce deve adicionar pelo menos um endereço para a pessoa");
         }
 
         var id = dto.codigoPessoa();
