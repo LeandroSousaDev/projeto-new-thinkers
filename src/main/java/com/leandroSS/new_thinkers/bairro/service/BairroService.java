@@ -11,6 +11,7 @@ import com.leandroSS.new_thinkers.bairro.validation.BairroValidation;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -110,12 +111,12 @@ public class BairroService {
                                 .toList();
         }
 
-        public List<ResponseBairroDto> bairroByMunicipio(String municipio) throws CustomException {
-                var id = Integer.valueOf(municipio);
+        public List<ResponseBairroDto> bairroByMunicipio(String codigoMunicipio) throws CustomException {
+                var id = Integer.valueOf(codigoMunicipio);
                 var municipioCurrent = this.municipioRepository.findByCodigoMunicipio(id);
 
                 if (municipioCurrent.isEmpty()) {
-                        throw new CustomException("Municipio não encontrado");
+                        return new ArrayList<>();
                 }
 
                 var listBairro = this.bairroRepository.findByMunicipio(municipioCurrent.get(0));

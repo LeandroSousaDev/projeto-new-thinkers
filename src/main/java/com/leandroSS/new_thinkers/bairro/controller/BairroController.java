@@ -36,7 +36,7 @@ public class BairroController {
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoBairro,
-            @RequestParam(required = false) String municipio) throws CustomException {
+            @RequestParam(required = false) String codigoMunicipio) throws CustomException {
 
         List<ResponseBairroDto> bairros;
 
@@ -55,8 +55,8 @@ public class BairroController {
             }
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bairros.get(0));
 
-        } else if (municipio != null) {
-            bairros = this.bairroService.bairroByMunicipio(municipio);
+        } else if (codigoMunicipio != null) {
+            bairros = this.bairroService.bairroByMunicipio(codigoMunicipio);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bairros);
 
         } else {
