@@ -34,7 +34,7 @@ public class MunicipioController {
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoMunicipio,
-            @RequestParam(required = false) String UF) throws CustomException {
+            @RequestParam(required = false) String codigoUF) throws CustomException {
 
         List<ResponseMunicipioDto> municipios;
 
@@ -49,12 +49,12 @@ public class MunicipioController {
         } else if (codigoMunicipio != null) {
             municipios = this.municipioService.municipioById(codigoMunicipio);
             if (municipios.isEmpty()) {
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
+                return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
             }
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios.get(0));
 
-        } else if (UF != null) {
-            municipios = this.municipioService.municipuioByUF(UF);
+        } else if (codigoUF != null) {
+            municipios = this.municipioService.municipuioByUF(codigoUF);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(municipios);
 
         } else {
@@ -65,7 +65,8 @@ public class MunicipioController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@RequestBody UpdateMunicipioDto updateMunicipioDto) throws CustomException {
+    public ResponseEntity<List<ResponseMunicipioDto>> UpdateUf(@RequestBody UpdateMunicipioDto updateMunicipioDto)
+            throws CustomException {
 
         var updateList = this.municipioService.updateMunicipio(updateMunicipioDto);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(updateList);

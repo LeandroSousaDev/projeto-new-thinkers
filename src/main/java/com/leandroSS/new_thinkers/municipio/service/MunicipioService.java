@@ -10,6 +10,7 @@ import com.leandroSS.new_thinkers.excepition.CustomException;
 import com.leandroSS.new_thinkers.municipio.validation.MunicipioValidation;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -101,22 +102,22 @@ public class MunicipioService {
                 var listMunicipio = this.municipioRepository.findByCodigoMunicipio(codigoMunicipio);
 
                 return listMunicipio
-                        .stream()
-                        .map(municipio -> new ResponseMunicipioDto(
-                                municipio.getCodigoMunicipio(),
-                                municipio.getUF().getCodigoUF(),
-                                municipio.getNome(),
-                                municipio.getStatus(),
-                                null))
-                        .toList();
+                                .stream()
+                                .map(municipio -> new ResponseMunicipioDto(
+                                                municipio.getCodigoMunicipio(),
+                                                municipio.getUF().getCodigoUF(),
+                                                municipio.getNome(),
+                                                municipio.getStatus(),
+                                                null))
+                                .toList();
         }
 
-        public List<ResponseMunicipioDto> municipuioByUF(String uf) throws CustomException {
-                var id = Integer.valueOf(uf);
+        public List<ResponseMunicipioDto> municipuioByUF(String codigoUF) throws CustomException {
+                var id = Integer.valueOf(codigoUF);
                 var ufCurrent = this.ufRepository.findByCodigoUF(id);
 
                 if (ufCurrent.isEmpty()) {
-                    throw new CustomException("Estado não encontrado");
+                        return new ArrayList<>();
                 }
 
                 var listMunicipio = this.municipioRepository.findByUF(ufCurrent.get(0));
@@ -133,9 +134,10 @@ public class MunicipioService {
 
         }
 
-        public List<ResponseMunicipioDto> updateMunicipio(UpdateMunicipioDto updateMunicipioDto) throws CustomException {
+        public List<ResponseMunicipioDto> updateMunicipio(UpdateMunicipioDto updateMunicipioDto)
+                        throws CustomException {
 
-               var updatedMunicipio = MunicipioValidation.updateValidation(updateMunicipioDto, municipioRepository);
+                var updatedMunicipio = MunicipioValidation.updateValidation(updateMunicipioDto, municipioRepository);
 
                 var uf = this.ufRepository.findByCodigoUF(updateMunicipioDto.codigoUF());
 
