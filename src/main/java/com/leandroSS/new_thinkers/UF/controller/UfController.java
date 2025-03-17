@@ -29,7 +29,7 @@ public class UfController {
     }
 
     @GetMapping("/")
-    private ResponseEntity getUf(
+    private ResponseEntity<?> getUf(
             @RequestParam(required = false) String sigla,
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer codigoUF,

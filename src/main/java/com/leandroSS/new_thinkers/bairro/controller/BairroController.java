@@ -32,7 +32,7 @@ public class BairroController {
     }
 
     @GetMapping("/")
-    public ResponseEntity getBairro(
+    public ResponseEntity<?> getBairro(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoBairro,

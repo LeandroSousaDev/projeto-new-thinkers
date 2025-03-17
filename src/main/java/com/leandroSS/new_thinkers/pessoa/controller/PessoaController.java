@@ -29,7 +29,7 @@ public class PessoaController {
     }
 
     @GetMapping("/")
-    public ResponseEntity getPessoa(
+    public ResponseEntity<?> getPessoa(
             @RequestParam(required = false) Integer codigoPessoa,
             @RequestParam(required = false) String login,
             @RequestParam(required = false) Integer status) {

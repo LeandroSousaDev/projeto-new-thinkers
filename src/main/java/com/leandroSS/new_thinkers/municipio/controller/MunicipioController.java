@@ -30,7 +30,7 @@ public class MunicipioController {
     }
 
     @GetMapping("/")
-    public ResponseEntity getMunicipio(
+    public ResponseEntity<?> getMunicipio(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) Integer codigoMunicipio,
